@@ -1,0 +1,3 @@
+[gd_scene format=2]
+
+[node name="PlayerStartPosition" type="Position3D" groups=["player_start_positions"]]

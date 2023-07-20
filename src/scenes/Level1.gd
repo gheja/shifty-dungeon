@@ -12,11 +12,11 @@ func bake_navmesh():
 	navmesh_instance.navmesh = NavigationMesh.new()
 	navmesh_instance.navmesh.cell_size = navigation.cell_size
 	navmesh_instance.navmesh.cell_height = navigation.cell_height
-	navmesh_instance.navmesh.agent_radius = 0.33
+	navmesh_instance.navmesh.agent_radius = 0.30
 	navmesh_instance.bake_navigation_mesh(false)
 	
 	emit_signal("navmesh_changed")
 
 func _on_Timer_timeout():
-	$Navigation/NavigationMeshInstance/Blocks/BlockTypeE.rotate_y(PI/2)
+	$Navigation/NavigationMeshInstance/Blocks/BlockTypeD.rotate_y(PI/2)
 	bake_navmesh()

@@ -1,0 +1,62 @@
+extends Control
+
+# controls:
+# - 0: keyboard
+# - 1: mouse
+# - 2: cpu
+
+onready var player1_button: Button = $MainMenu/VBoxContainer/Player1Button
+onready var player2_button: Button = $MainMenu/VBoxContainer/Player2Button
+onready var start_button: Button = $MainMenu/VBoxContainer/StartButton
+onready var about_button: Button = $MainMenu/VBoxContainer/AboutButton
+onready var exit_button: Button = $MainMenu/VBoxContainer/ExitButton
+onready var about_back_button: Button = $About/VBoxContainer/AboutBackButton
+
+var player1_control = 1
+var player2_control = 0
+
+func _ready():
+	if OS.has_feature("mobile") or OS.has_feature("web"):
+		exit_button.hide()
+	player1_button.grab_focus()
+
+func get_text_from_control_number(n):
+	if n == 0:
+		return "Keyboard"
+	elif n == 1:
+		return "Mouse"
+	elif n == 2:
+		return "CPU"
+	
+	print("?!")
+
+func update_buttons():
+	player1_button.text = "Player 1: " + get_text_from_control_number(player1_control)
+	player2_button.text = "Player 2: " + get_text_from_control_number(player2_control)
+	
+	if (player1_control == 1 or player1_control == 0) and (player1_control == player2_control):
+		start_button.disabled = true
+	else:
+		start_button.disabled = false
+
+
+func _on_Player1Button_pressed():
+	player1_control = (player1_control + 1) % 3
+	update_buttons()
+
+func _on_Player2Button_pressed():
+	player2_control = (player2_control + 1) % 3
+	update_buttons()
+
+func _on_AboutButton_pressed():
+	$MainMenu.hide()
+	$About.show()
+	about_back_button.grab_focus()
+
+func _on_AboutBackButton_pressed():
+	$About.hide()
+	$MainMenu.show()
+	about_button.grab_focus()
+
+func _on_ExitButton_pressed():
+	get_tree().quit()

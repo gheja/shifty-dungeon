@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/BlockTypeB.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/BlockTypeGoalA.tscn" type="PackedScene" id=2]
@@ -7,12 +7,18 @@
 [ext_resource path="res://scenes/BlockTypeF.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/BlockTypeE.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/Level1.gd" type="Script" id=7]
+[ext_resource path="res://scenes/BlockTypeG.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/BlockTypeH.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/BlockTypeBorderEdge.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/BlockTypeBorderCorner.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/PlayerStartPosition.tscn" type="PackedScene" id=12]
 
 [node name="Level1" type="Spatial"]
 script = ExtResource( 7 )
 
 [node name="Navigation" type="Navigation" parent="." groups=["navigations"]]
 cell_size = 0.1
+cell_height = 0.1
 
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Navigation"]
 
@@ -21,17 +27,11 @@ cell_size = 0.1
 [node name="BlockTypeA" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -5 )
 
-[node name="BlockTypeA5" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
-
-[node name="BlockTypeA2" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0 )
-
 [node name="BlockTypeA3" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 5 )
 
 [node name="BlockTypeGoalA" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5 )
+transform = Transform( 1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, 0, 0, -5 )
 
 [node name="BlockTypeB" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 1 )]
 transform = Transform( 1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 10, 0, 5 )
@@ -52,6 +52,84 @@ transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 10, 0, 
 
 [node name="BlockTypeF" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5 )
+
+[node name="BlockTypeG" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0 )
+
+[node name="BlockTypeH" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 9 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 5 )
+
+[node name="BlockTypeH2" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 5 )
+
+[node name="BlockTypeD4" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0 )
+
+[node name="BlockTypeF2" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -5 )
+
+[node name="BlockTypeBorderEdge" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 10 )
+
+[node name="BlockTypeBorderEdge2" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 10 )
+
+[node name="BlockTypeBorderEdge3" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
+
+[node name="BlockTypeBorderEdge4" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 10 )
+
+[node name="BlockTypeBorderEdge5" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 10 )
+
+[node name="BlockTypeBorderEdge6" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15, 0, 5 )
+
+[node name="BlockTypeBorderEdge7" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15, 0, 0 )
+
+[node name="BlockTypeBorderEdge8" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15, 0, -5 )
+
+[node name="BlockTypeBorderCorner" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 10 )
+
+[node name="BlockTypeBorderCorner2" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 11 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15, 0, 10 )
+
+[node name="BlockTypeBorderEdge9" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -10, 0, -10 )
+
+[node name="BlockTypeBorderEdge10" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5, 0, -10 )
+
+[node name="BlockTypeBorderEdge11" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.56302e-06, 0, -10 )
+
+[node name="BlockTypeBorderEdge12" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 5, 0, -10 )
+
+[node name="BlockTypeBorderEdge13" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 10, 0, -10 )
+
+[node name="BlockTypeBorderEdge14" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15, 0, -5 )
+
+[node name="BlockTypeBorderEdge15" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15, 0, -1.43051e-06 )
+
+[node name="BlockTypeBorderEdge16" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15, 0, 5 )
+
+[node name="BlockTypeBorderCorner3" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 11 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -15, 0, -10 )
+
+[node name="BlockTypeBorderCorner4" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 11 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15, 0, -10 )
+
+[node name="PlayerStartPosition" parent="." instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.562, 0.5, 4.07 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0

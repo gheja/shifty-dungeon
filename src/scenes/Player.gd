@@ -8,14 +8,6 @@ var inputAngleRad = PI
 var inputSpeed = 0
 var path = []
 
-func get_first_group_member(group_name):
-	var members = get_tree().get_nodes_in_group(group_name)
-	
-	if members.size() == 0:
-		print("?!")
-	
-	return members[0]
-
 func _physics_process(delta):
 	velocity += gravity * delta
 	
@@ -54,8 +46,8 @@ func new_array(input):
 	return output
 
 func regenerate_route():
-	var nav: Navigation = get_first_group_member("navigations")
-	var goal: Spatial = get_first_group_member("goals")
+	var nav: Navigation = Lib.get_first_group_member("navigations")
+	var goal: Spatial = Lib.get_first_group_member("goals")
 	var newPath
 	
 	print("path from: ", global_transform.origin, ", path to: ", goal.global_transform.origin)
@@ -64,5 +56,8 @@ func regenerate_route():
 
 	path = newPath
 
-func _on_Timer_timeout():
+func regenerate_route_schedule():
+	$RegenerateRouteTimer.start()
+
+func _on_RegenerateRouteTimer_timeout():
 	regenerate_route()
