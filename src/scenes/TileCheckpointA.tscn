@@ -1,0 +1,138 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scenes/TileCheckpointA.gd" type="Script" id=1]
+
+[sub_resource type="CubeMesh" id=4]
+size = Vector3( 0.25, 0.25, 0.25 )
+
+[sub_resource type="SpatialMaterial" id=5]
+albedo_color = Color( 0.733333, 0, 1, 1 )
+
+[sub_resource type="Animation" id=1]
+resource_name = "default"
+length = 3.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("TheCheckpoint:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8, 2.4, 3.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0.3, 0 ), Vector3( 0, 0.15, 0 ), Vector3( 0, 0.45, 0 ), Vector3( 0, 0.3, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TheCheckpoint:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 3.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 720, 0 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "disappear"
+tracks/0/type = "value"
+tracks/0/path = NodePath("TheCheckpoint:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0.3, 0 ), Vector3( 0, 5, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TheCheckpoint:rotation_degrees")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.001, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, 1800, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("TheCheckpoint:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.822971 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1.25, 1.25, 1.25 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "default"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("OmniLight:light_specular")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 5.0, 2.0, 5.0 ]
+}
+
+[node name="TileCheckpointA" type="Spatial" groups=["coins"]]
+script = ExtResource( 1 )
+
+[node name="TheCheckpoint" type="Spatial" parent="."]
+transform = Transform( 1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0.3, 0 )
+
+[node name="CSGMesh" type="CSGMesh" parent="TheCheckpoint"]
+transform = Transform( 0.648123, -0.374194, -2.98023e-08, 0.586235, 1.01539, -1.17247, 0.264595, 0.458292, 0.52919, 0, 0.402505, 0 )
+mesh = SubResource( 4 )
+material = SubResource( 5 )
+
+[node name="OmniLight" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
+light_color = Color( 1, 0, 0.74902, 1 )
+light_energy = 0.5
+light_specular = 5.0
+
+[node name="OmniLight2" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7091, 0 )
+light_color = Color( 1, 0.984314, 0, 1 )
+light_specular = 0.929
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "default"
+anims/default = SubResource( 1 )
+anims/disappear = SubResource( 6 )
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+autoplay = "default"
+anims/default = SubResource( 3 )

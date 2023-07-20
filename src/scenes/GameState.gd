@@ -11,3 +11,11 @@ const STATE_FINISHED = 3
 var is_swapped: bool = false
 var state: int = 0
 
+var musicEnabled = true
+var soundsEnabled = true
+var fullScreenEnabled = false
+
+func applyOptions():
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("Music Master"), not musicEnabled)
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("Sounds Master"), not soundsEnabled)
+	OS.set_window_fullscreen(fullScreenEnabled)

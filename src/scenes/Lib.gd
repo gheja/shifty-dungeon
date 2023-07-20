@@ -4,7 +4,8 @@ func get_first_group_member(group_name):
 	var members = get_tree().get_nodes_in_group(group_name)
 	
 	if members.size() == 0:
-		print("?!")
+		print("Warning: No object matching group \"", group_name, "\", returning null.")
+		return null
 	
 	return members[0]
 
@@ -24,3 +25,15 @@ func toArray(input):
 		output.append(a)
 	
 	return output
+
+func arrayPick(a):
+	return a[randi() % a.size()]
+
+func plerp(a, b, p, delta):
+	return lerp(a, b, 1 - pow(p, delta))
+
+func plerp2D(a, b, p, delta):
+	return Vector2(plerp(a.x, b.x, p, delta), plerp(a.y, b.y, p, delta))
+
+func plerp3D(a, b, p, delta):
+	return Vector3(plerp(a.x, b.x, p, delta), plerp(a.y, b.y, p, delta), plerp(a.z, b.z, p, delta))

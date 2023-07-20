@@ -1,7 +1,6 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scenes/BlockTypeB.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/BlockTypeGoalA.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/BlockTypeA.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/BlockTypeD.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/BlockTypeF.tscn" type="PackedScene" id=5]
@@ -24,14 +23,14 @@ cell_height = 0.1
 
 [node name="Blocks" type="Spatial" parent="Navigation/NavigationMeshInstance"]
 
-[node name="BlockTypeA" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 3 )]
+[node name="BlockTypeD5" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5 )
+
+[node name="BlockTypeF3" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -5 )
 
 [node name="BlockTypeA3" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 5 )
-
-[node name="BlockTypeGoalA" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, 0, 0, -5 )
 
 [node name="BlockTypeB" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 1 )]
 transform = Transform( 1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 10, 0, 5 )
@@ -96,7 +95,7 @@ transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15, 0,
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 10 )
 
 [node name="BlockTypeBorderCorner2" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 11 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15, 0, 10 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 10 )
 
 [node name="BlockTypeBorderEdge9" parent="Navigation/NavigationMeshInstance/Blocks" instance=ExtResource( 10 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -10, 0, -10 )

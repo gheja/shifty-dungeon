@@ -11,10 +11,15 @@ var level = null
 
 var cpu_dm_clicks_left = 1
 
+var keyboard_vector = Vector2.ZERO
+var keyboard_just_vector = Vector2.ZERO
+var keyboard_just_action = false
+
 func show_menu():
 	# clear_level()
 	$MenuOverlay.show()
 	$MenuOverlay.show_main_menu(false)
+	$GameOverlay.update_mouse_cursor(null, null, false)
 	GameState.state = GameState.STATE_MENU
 
 func clear_level():
@@ -30,19 +35,17 @@ func load_level():
 	var level_preload = preload("res://scenes/Level1.tscn")
 	
 	level  = level_preload.instance()
-	level.connect("navmesh_changed", self, "on_level_navmesh_changed")
+	level.set_main_game(self)
+	level.set_signal_handlers()
 	
 	$LevelContainer.add_child(level)
 	$Player.global_transform = Lib.get_first_group_member("player_start_positions").global_transform
 	$Player.show()
-	
-	for obj in get_tree().get_nodes_in_group("blocks"):
-		obj.connect("mouse_hover", self, "on_mouse_hover_over_box", [ obj ])
-	
 	$ControlSwapTimer.start()
 	
 	GameState.is_swapped = false
 	GameState.state = GameState.STATE_RUNNING
+	try_to_update_block_selection(Vector2.ZERO)
 
 func _ready():
 	var _tmp = $MenuOverlay.connect("start_button_pressed", self, "on_start_button_pressed")
@@ -51,36 +54,79 @@ func _ready():
 	show_menu()
 
 func check_goal():
-	var coin = Lib.get_first_group_member("coins")
+	var coin = Lib.get_first_group_member("goals")
+	
 	if Lib.distGtoXZ(coin, $Player) < 1.0:
-		var tmp = preload("res://scenes/CongratulationsParticles.tscn").instance()
-		get_tree().root.add_child(tmp)
-		tmp.global_transform = coin.global_transform
+		level.checkpoint_reached()
 		
-		coin.reached()
-		
-		game_finished()
+		if level.is_finished():
+			game_finished()
 
-func _process(_delta):
+func update_mouse_cursor():
+	$GameOverlay.update_mouse_cursor(player1_control, player2_control, block_selection_is_valid())
+
+func handle_keyboard_input():
+	keyboard_vector = Vector2.ZERO
+	keyboard_just_vector = Vector2.ZERO
+	keyboard_just_action = false
+	
+	if Input.is_action_just_pressed("ui_left"):
+		keyboard_just_vector += Vector2(-1, 0)
+	if Input.is_action_just_pressed("ui_right"):
+		keyboard_just_vector += Vector2(1, 0)
+	if Input.is_action_just_pressed("ui_up"):
+		keyboard_just_vector += Vector2(0, -1)
+	if Input.is_action_just_pressed("ui_down"):
+		keyboard_just_vector += Vector2(0, 1)
+	
+	if Input.is_action_pressed("ui_left"):
+		keyboard_vector += Vector2(-1, 0)
+	if Input.is_action_pressed("ui_right"):
+		keyboard_vector += Vector2(1, 0)
+	if Input.is_action_pressed("ui_up"):
+		keyboard_vector += Vector2(0, -1)
+	if Input.is_action_pressed("ui_down"):
+		keyboard_vector += Vector2(0, 1)
+	
+	if Input.is_action_just_pressed("ui_accept"):
+		keyboard_just_action = true
+	
+
+func _process(delta):
 	if GameState.state == GameState.STATE_RUNNING:
 		check_goal()
 	
 	if GameState.state == GameState.STATE_FINISHED:
 		return
 	
+	handle_keyboard_input()
+	
+	if orc_control == GameState.CONTROL_KEYBOARD:
+		if keyboard_vector != Vector2.ZERO:
+			$Player.set_input_target_position($Player.global_translation + Vector3(keyboard_vector.x, 0, keyboard_vector.y))
+		else:
+			$Player.set_input_target_position($Player.global_translation)
+	
+	if dm_control == GameState.CONTROL_KEYBOARD:
+		if Lib.dist2D(keyboard_just_vector, Vector2.ZERO) > 0.1:
+			try_to_update_block_selection(keyboard_just_vector * 5.0)
+		
+		if keyboard_just_action:
+			dm_click()
+	
 	# TODO: fix the positions
 	var pos_orc = $Player.global_translation + Vector3(0.0, 0.0, -0.5)
 	var pos_block = $SelectionHighlight.global_translation + Vector3(0.0, 0.0, -0.5)
 	
 	if player1_control == orc_control:
-		$PlayerLabels/Player1Label.global_translation = pos_orc
+		$PlayerLabels/Player1Label.global_translation = Lib.plerp3D($PlayerLabels/Player1Label.global_translation, pos_orc, 0.05, delta)
 	else:
-		$PlayerLabels/Player1Label.global_translation = pos_block
+		$PlayerLabels/Player1Label.global_translation = Lib.plerp3D($PlayerLabels/Player1Label.global_translation, pos_block, 0.05, delta)
 	
 	if player2_control == dm_control:
-		$PlayerLabels/Player2Label.global_translation = pos_block
+		$PlayerLabels/Player2Label.global_translation = Lib.plerp3D($PlayerLabels/Player2Label.global_translation, pos_block, 0.05, delta)
 	else:
-		$PlayerLabels/Player2Label.global_translation = pos_orc
+		$PlayerLabels/Player2Label.global_translation = Lib.plerp3D($PlayerLabels/Player2Label.global_translation, pos_orc, 0.05, delta)
 	
 	if not block_selection_is_valid():
 		update_block_highlight_color(false)
@@ -89,6 +135,8 @@ func _process(_delta):
 	
 	if $ControlSwapTimer.time_left > 0:
 		$GameOverlay.set_progress(1 - ($ControlSwapTimer.time_left / $ControlSwapTimer.wait_time))
+	
+	update_mouse_cursor()
 
 func swap_controls():
 	GameState.is_swapped = not GameState.is_swapped
@@ -115,7 +163,7 @@ func on_level_navmesh_changed():
 	$Player.regenerate_route_schedule()
 
 func block_selection_is_valid():
-	if not current_block:
+	if not current_block or not is_instance_valid(current_block):
 		return false
 	
 	if current_block.is_in_group("static_blocks"):
@@ -123,7 +171,8 @@ func block_selection_is_valid():
 	
 	var p1 = Vector2($Player.global_transform.origin.x, $Player.global_transform.origin.z)
 	var p2 = Vector2($SelectionHighlight.global_transform.origin.x, $SelectionHighlight.global_transform.origin.z)
-	var limit = 2.1
+	# var limit = 2.1
+	var limit = 1.6
 	
 	if Lib.dist2D(p1, p2) < limit:
 		return false
@@ -139,10 +188,14 @@ func block_selection_is_valid():
 func update_block_highlight_color(valid):
 	$SelectionHighlight/Player1Highlight.hide()
 	$SelectionHighlight/Player2Highlight.hide()
-	$SelectionHighlight/SelectionInvalid.hide()
+	$SelectionHighlight/Player1Invalid.hide()
+	$SelectionHighlight/Player2Invalid.hide()
 	
 	if not valid:
-		$SelectionHighlight/SelectionInvalid.show()
+		if not GameState.is_swapped:
+			$SelectionHighlight/Player2Invalid.show()
+		else:
+			$SelectionHighlight/Player1Invalid.show()
 	else:
 		if not GameState.is_swapped:
 			$SelectionHighlight/Player2Highlight.show()
@@ -153,16 +206,51 @@ func set_block_selection(block):
 	current_block = block
 	$SelectionHighlight.global_translation = current_block.global_translation
 
+func get_block_on_position(pos):
+	for block in get_tree().get_nodes_in_group("blocks"):
+		if not is_instance_valid(block):
+			continue
+		
+		if Lib.distXZ(block.global_transform.origin, pos) < 0.1:
+			return block
+	
+	return null
+
+func try_to_update_block_selection(pos):
+	# TODO: we are tracking the selection by tracking the currently selected
+	# block and calculating the next coordinate based on player input. it would
+	# be much cleaner to use a "DM cursor" and select the block below it. the
+	# currently selected block becomes invalid when the block is being replaced,
+	# so the selection will start from the center
+	
+	var block
+	var d = Vector3(pos.x, 0, pos.y)
+	
+	if not current_block or not is_instance_valid(current_block):
+		# NOTE: must be a valid block at [0, 0, 0]
+		block = get_block_on_position(Vector3.ZERO)
+	else:
+		block = get_block_on_position(current_block.global_transform.origin + d)
+	
+	if block.is_in_group("edge_blocks"):
+		block = null
+	
+	if not block:
+		return
+	
+	set_block_selection(block)
+
 func block_rotate():
 	if not block_selection_is_valid():
 		return
 	
-	current_block.rotate_y(PI/2)
+	# current_block.rotate_y(PI/2)
+	current_block.rotate_to()
 
 func on_mouse_hover_over_box(position, block):
 	if dm_control == GameState.CONTROL_MOUSE:
 		set_block_selection(block)
-	
+
 	if orc_control == GameState.CONTROL_MOUSE:
 		$Player.set_input_target_position(position)
 
@@ -173,26 +261,36 @@ func dm_click():
 func cpu_dm_step():
 	var path = $Player.get_path()
 	var blocks = get_tree().get_nodes_in_group("blocks")
-	var blocks_in_path = []
+	var blocks_considered = []
+	var blocks_valid = []
+	var rect: Rect2
 	
-	for step in path:
-		for block in blocks:
-			if block.is_in_group("static_blocks"):
-				continue
-			
-			# note: this is intentionally too wide, so DM CPU will have more
-			# tiles to pick from - though, it's still buggy...
-			if Lib.distXZ(step, block.global_transform.origin) < 3.0:
-				blocks_in_path.append(block)
+	for block in blocks:
+		if block.is_in_group("static_blocks"):
+			continue
+		
+		blocks_valid.append(block)
 	
-	print(blocks_in_path.size())
-	
-	if blocks_in_path.size() == 0:
+	if blocks_valid.size() == 0:
 		return
 	
-	blocks_in_path.shuffle()
+	for block in blocks_valid:
+		rect = Rect2(Vector2(block.global_transform.origin.x, block.global_transform.origin.z), Vector2(5.0, 5.0))
+		
+		for step in path:
+			if rect.has_point(Vector2(step.x, step.z)):
+				# print(' -> ', rect, Vector2(step.x, step.z))
+				blocks_considered.append(block)
+				break
 	
-	set_block_selection(blocks_in_path[0])
+	while blocks_considered.size() < 3:
+		# NOTE: might pick one already in the array
+		blocks_considered.append(Lib.arrayPick(blocks_valid))
+	
+	if blocks_considered.size() == 0:
+		return
+	
+	set_block_selection(Lib.arrayPick(blocks_considered))
 	
 	cpu_dm_clicks_left = round(rand_range(1, 3))
 
@@ -211,7 +309,7 @@ func _on_ControlSwapTimer_timeout():
 	swap_controls()
 	var tmp = preload("res://scenes/RolesReversedOverlay.tscn").instance()
 	tmp.update_text()
-	get_tree().root.add_child(tmp)
+	$Messages.add_child(tmp)
 
 func _unhandled_input(event):
 	if GameState.state == GameState.STATE_FINISHED:
@@ -234,7 +332,7 @@ func game_finished():
 	
 	var tmp = preload("res://scenes/CongratulationsOverlay.tscn").instance()
 	tmp.update_text()
-	get_tree().root.add_child(tmp)
+	$Messages.add_child(tmp)
 	
 	AudioManager.set_music_fade_ratio_target(0.0)
 	
@@ -259,7 +357,7 @@ func _on_CpuDmStep1Timer_timeout():
 	if dm_control != GameState.CONTROL_CPU:
 		return
 	
-	print("cpu dm step")
+	# print("cpu dm step")
 	cpu_dm_step()
 
 func _on_CpuDmStep2Timer_timeout():
@@ -272,7 +370,7 @@ func _on_CpuDmStep2Timer_timeout():
 	if cpu_dm_clicks_left < 1:
 		return
 	
-	print("cpu dm click")
+	# print("cpu dm click")
 	dm_click()
 	
 	cpu_dm_clicks_left -= 1

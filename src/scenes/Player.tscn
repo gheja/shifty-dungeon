@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://data/models/character-orc.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/Player.gd" type="Script" id=2]
@@ -9,26 +9,67 @@ size = Vector3( 0.2, 0.5, 0.1 )
 [sub_resource type="SpatialMaterial" id=6]
 albedo_color = Color( 1, 0, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=7]
-albedo_color = Color( 0.443137, 0.784314, 1, 1 )
+[sub_resource type="CubeMesh" id=13]
+size = Vector3( 0.1, 0.5, 0.1 )
+
+[sub_resource type="Curve" id=14]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.148325, 1 ), -2.6125, -2.6125, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.25
 height = 0.5
 
 [sub_resource type="CylinderMesh" id=2]
-top_radius = 2.1
-bottom_radius = 2.1
+top_radius = 1.6
+bottom_radius = 1.6
 height = 0.2
 radial_segments = 32
 
 [sub_resource type="SpatialMaterial" id=4]
 params_blend_mode = 1
-albedo_color = Color( 0.1, 0, 0, 1 )
+albedo_color = Color( 0.101961, 0, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=3]
-params_blend_mode = 1
-albedo_color = Color( 0, 0.027451, 0.105882, 1 )
+[sub_resource type="Animation" id=10]
+resource_name = "default"
+
+[sub_resource type="Animation" id=11]
+resource_name = "player_swap_transition"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Visuals/CPUParticles:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Visuals/CPUParticles:one_shot")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("PlayerHighlight:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 1, 0 ), Vector3( 1, 1, 1 ) ]
+}
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 2 )
@@ -38,16 +79,25 @@ script = ExtResource( 2 )
 [node name="character-orc" parent="Visuals" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
 
-[node name="Player1Arrow" type="CSGMesh" parent="Visuals"]
+[node name="PlayerArrow" type="CSGMesh" parent="Visuals"]
 transform = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0.169734, -0.739951 )
 mesh = SubResource( 5 )
 material = SubResource( 6 )
 
-[node name="Player2Arrow" type="CSGMesh" parent="Visuals"]
-transform = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0.169734, -0.739951 )
-visible = false
-mesh = SubResource( 5 )
-material = SubResource( 7 )
+[node name="CPUParticles" type="CPUParticles" parent="Visuals"]
+emitting = false
+amount = 30
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.67
+mesh = SubResource( 13 )
+emission_shape = 1
+emission_sphere_radius = 0.5
+direction = Vector3( 0, 1, 0 )
+spread = 0.0
+gravity = Vector3( 0, 10, 0 )
+initial_velocity = 5.0
+scale_amount_curve = SubResource( 14 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.5, 0 )
@@ -57,13 +107,13 @@ shape = SubResource( 1 )
 wait_time = 0.2
 one_shot = true
 
-[node name="Player1Highlight" type="CSGMesh" parent="."]
+[node name="PlayerHighlight" type="CSGMesh" parent="."]
 mesh = SubResource( 2 )
 material = SubResource( 4 )
 
-[node name="Player2Highlight" type="CSGMesh" parent="."]
-visible = false
-mesh = SubResource( 2 )
-material = SubResource( 3 )
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "default"
+anims/default = SubResource( 10 )
+anims/player_swap_transition = SubResource( 11 )
 
 [connection signal="timeout" from="RegenerateRouteTimer" to="." method="_on_RegenerateRouteTimer_timeout"]
