@@ -10,16 +10,22 @@ var player2_control = GameState.CONTROL_KEYBOARD
 var level = null
 
 var cpu_dm_clicks_left = 1
+var cpu_dm_extra_blocks = 2
 
 var keyboard_vector = Vector2.ZERO
 var keyboard_just_vector = Vector2.ZERO
 var keyboard_just_action = false
+
+var dm_cursor = Vector3.ZERO
+
+var game_progressbar_position = 0
 
 func show_menu():
 	# clear_level()
 	$MenuOverlay.show()
 	$MenuOverlay.show_main_menu(false)
 	$GameOverlay.update_mouse_cursor(null, null, false)
+	$GameOverlay.set_elements_visibility(false)
 	GameState.state = GameState.STATE_MENU
 
 func clear_level():
@@ -42,10 +48,29 @@ func load_level():
 	$Player.global_transform = Lib.get_first_group_member("player_start_positions").global_transform
 	$Player.show()
 	$ControlSwapTimer.start()
+	$GameOverlay.reset()
+	$GameOverlay.set_elements_visibility(true)
 	
 	GameState.is_swapped = false
 	GameState.state = GameState.STATE_RUNNING
-	try_to_update_block_selection(Vector2.ZERO)
+	dm_cursor = Vector3.ZERO
+	update_block_selection()
+	
+	game_progressbar_position = 1
+	update_game_progressbar()
+	
+	if GameState.cpu_player_difficulty == 1:
+		$CpuDmStep1Timer.wait_time = 2.5
+		$CpuDmStep2Timer.wait_time = 0.5
+		cpu_dm_extra_blocks = 3
+	elif GameState.cpu_player_difficulty == 2:
+		$CpuDmStep1Timer.wait_time = 1.2
+		$CpuDmStep2Timer.wait_time = 0.33
+		cpu_dm_extra_blocks = 2
+	else:
+		$CpuDmStep1Timer.wait_time = 0.9
+		$CpuDmStep2Timer.wait_time = 0.25
+		cpu_dm_extra_blocks = 0
 
 func _ready():
 	var _tmp = $MenuOverlay.connect("start_button_pressed", self, "on_start_button_pressed")
@@ -58,9 +83,17 @@ func check_goal():
 	
 	if Lib.distGtoXZ(coin, $Player) < 1.0:
 		level.checkpoint_reached()
+		increase_game_progressbar()
 		
 		if level.is_finished():
 			game_finished()
+
+func increase_game_progressbar():
+	game_progressbar_position += 1
+	update_game_progressbar()
+
+func update_game_progressbar():
+	$GameOverlay.set_game_progressbar(game_progressbar_position)
 
 func update_mouse_cursor():
 	$GameOverlay.update_mouse_cursor(player1_control, player2_control, block_selection_is_valid())
@@ -96,7 +129,7 @@ func _process(delta):
 	if GameState.state == GameState.STATE_RUNNING:
 		check_goal()
 	
-	if GameState.state == GameState.STATE_FINISHED:
+	if GameState.state != GameState.STATE_RUNNING:
 		return
 	
 	handle_keyboard_input()
@@ -109,7 +142,8 @@ func _process(delta):
 	
 	if dm_control == GameState.CONTROL_KEYBOARD:
 		if Lib.dist2D(keyboard_just_vector, Vector2.ZERO) > 0.1:
-			try_to_update_block_selection(keyboard_just_vector * 5.0)
+			dm_update_cursor()
+			update_block_selection()
 		
 		if keyboard_just_action:
 			dm_click()
@@ -204,6 +238,10 @@ func update_block_highlight_color(valid):
 
 func set_block_selection(block):
 	current_block = block
+	
+	# make sure the dm_cursor is on the correct position
+	dm_cursor = block.global_transform.origin
+	
 	$SelectionHighlight.global_translation = current_block.global_translation
 
 func get_block_on_position(pos):
@@ -216,24 +254,8 @@ func get_block_on_position(pos):
 	
 	return null
 
-func try_to_update_block_selection(pos):
-	# TODO: we are tracking the selection by tracking the currently selected
-	# block and calculating the next coordinate based on player input. it would
-	# be much cleaner to use a "DM cursor" and select the block below it. the
-	# currently selected block becomes invalid when the block is being replaced,
-	# so the selection will start from the center
-	
-	var block
-	var d = Vector3(pos.x, 0, pos.y)
-	
-	if not current_block or not is_instance_valid(current_block):
-		# NOTE: must be a valid block at [0, 0, 0]
-		block = get_block_on_position(Vector3.ZERO)
-	else:
-		block = get_block_on_position(current_block.global_transform.origin + d)
-	
-	if block.is_in_group("edge_blocks"):
-		block = null
+func update_block_selection():
+	var block = get_block_on_position(dm_cursor)
 	
 	if not block:
 		return
@@ -247,12 +269,26 @@ func block_rotate():
 	# current_block.rotate_y(PI/2)
 	current_block.rotate_to()
 
-func on_mouse_hover_over_box(position, block):
+func on_mouse_hover_over_box(position: Vector3, block: Spatial):
 	if dm_control == GameState.CONTROL_MOUSE:
 		set_block_selection(block)
-
+	
 	if orc_control == GameState.CONTROL_MOUSE:
 		$Player.set_input_target_position(position)
+
+func dm_update_cursor():
+	var block
+	var pos = dm_cursor + Vector3(keyboard_just_vector.x * 5, 0, keyboard_just_vector.y * 5)
+	
+	block = get_block_on_position(pos)
+	
+	if not block:
+		return
+	
+	if block.is_in_group("edge_blocks"):
+		return
+	
+	dm_cursor = pos
 
 func dm_click():
 	block_rotate()
@@ -282,6 +318,10 @@ func cpu_dm_step():
 				# print(' -> ', rect, Vector2(step.x, step.z))
 				blocks_considered.append(block)
 				break
+	
+	for i in range(0, cpu_dm_extra_blocks):
+		# NOTE: might pick one already in the array
+		blocks_considered.append(Lib.arrayPick(blocks_valid))
 	
 	while blocks_considered.size() < 3:
 		# NOTE: might pick one already in the array

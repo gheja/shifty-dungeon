@@ -6,7 +6,7 @@
 size = Vector3( 0.25, 0.25, 0.25 )
 
 [sub_resource type="SpatialMaterial" id=5]
-albedo_color = Color( 0.733333, 0, 1, 1 )
+albedo_color = Color( 0.660667, 0.04, 0.8, 1 )
 
 [sub_resource type="Animation" id=1]
 resource_name = "default"
@@ -119,7 +119,7 @@ material = SubResource( 5 )
 
 [node name="OmniLight" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
-light_color = Color( 1, 0, 0.74902, 1 )
+light_color = Color( 0.705882, 0.0392157, 0.854902, 1 )
 light_energy = 0.5
 light_specular = 5.0
 

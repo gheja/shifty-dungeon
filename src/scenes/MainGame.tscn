@@ -178,7 +178,7 @@ wait_time = 1.2
 autostart = true
 
 [node name="CpuDmStep2Timer" type="Timer" parent="."]
-wait_time = 0.25
+wait_time = 0.33
 autostart = true
 
 [node name="DebugPathSticksTimer" type="Timer" parent="."]

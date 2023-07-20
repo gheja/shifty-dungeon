@@ -10,6 +10,7 @@ const STATE_FINISHED = 3
 
 var is_swapped: bool = false
 var state: int = 0
+var cpu_player_difficulty = 2 # 1-2-3
 
 var musicEnabled = true
 var soundsEnabled = true

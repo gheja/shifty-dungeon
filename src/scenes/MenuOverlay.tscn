@@ -15,25 +15,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.196078, 0.196078, 0.196078, 0.705882 )
 
-[node name="MainMenu" type="VBoxContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -374.0
-margin_top = -301.0
-margin_right = 374.0
-margin_bottom = 301.0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
 
-[node name="TextureRect" type="TextureRect" parent="MainMenu"]
-margin_right = 748.0
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+margin_right = 800.0
 margin_bottom = 100.0
 texture = ExtResource( 1 )
 stretch_mode = 4
 
-[node name="Label2" type="Label" parent="MainMenu"]
+[node name="Label2" type="Label" parent="VBoxContainer"]
 margin_top = 104.0
-margin_right = 748.0
+margin_right = 800.0
 margin_bottom = 188.0
 custom_colors/font_color = Color( 0.87451, 0.717647, 0, 1 )
 text = "A game for GMTK GameJam 2023
@@ -41,15 +35,19 @@ for the theme Roles Reversed
 "
 align = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
-margin_left = 241.0
+[node name="MainMenu" type="VBoxContainer" parent="VBoxContainer"]
 margin_top = 192.0
-margin_right = 507.0
-margin_bottom = 426.0
+margin_right = 800.0
+margin_bottom = 543.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MainMenu"]
+margin_left = 267.0
+margin_right = 533.0
+margin_bottom = 234.0
 size_flags_horizontal = 4
 theme = ExtResource( 2 )
 
-[node name="Player1Button" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="Player1Button" type="Button" parent="VBoxContainer/MainMenu/VBoxContainer"]
 margin_right = 266.0
 margin_bottom = 30.0
 custom_colors/font_color_focus = Color( 1, 0, 0, 1 )
@@ -58,7 +56,7 @@ custom_colors/font_color_hover = Color( 1, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 1, 0, 0, 1 )
 text = "Player 1: [?]"
 
-[node name="Player2Button" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="Player2Button" type="Button" parent="VBoxContainer/MainMenu/VBoxContainer"]
 margin_top = 34.0
 margin_right = 266.0
 margin_bottom = 64.0
@@ -68,43 +66,44 @@ custom_colors/font_color_hover = Color( 0, 0.6, 1, 1 )
 custom_colors/font_color_pressed = Color( 0, 0.6, 1, 1 )
 text = "Player 2: [?]"
 
-[node name="StartButton" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="StartButton" type="Button" parent="VBoxContainer/MainMenu/VBoxContainer"]
 margin_top = 68.0
 margin_right = 266.0
 margin_bottom = 98.0
 text = "Start Game"
 
-[node name="OptionsButton" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="OptionsButton" type="Button" parent="VBoxContainer/MainMenu/VBoxContainer"]
 margin_top = 102.0
 margin_right = 266.0
 margin_bottom = 132.0
 text = "Options"
 
-[node name="HowToPlayButton" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="HowToPlayButton" type="Button" parent="VBoxContainer/MainMenu/VBoxContainer"]
 margin_top = 136.0
 margin_right = 266.0
 margin_bottom = 166.0
 text = "Story of the Dungeon"
 
-[node name="AboutButton" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="AboutButton" type="Button" parent="VBoxContainer/MainMenu/VBoxContainer"]
 margin_top = 170.0
 margin_right = 266.0
 margin_bottom = 200.0
 text = "About"
 
-[node name="ExitButton" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="ExitButton" type="Button" parent="VBoxContainer/MainMenu/VBoxContainer"]
 margin_top = 204.0
 margin_right = 266.0
 margin_bottom = 234.0
 text = "Exit to Desktop"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu"]
-margin_top = 430.0
-margin_right = 748.0
-margin_bottom = 543.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MainMenu"]
+margin_left = 41.0
+margin_top = 238.0
+margin_right = 759.0
+margin_bottom = 351.0
 size_flags_horizontal = 4
 
-[node name="Label" type="Label" parent="MainMenu/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/MainMenu/HBoxContainer"]
 margin_right = 302.0
 margin_bottom = 113.0
 size_flags_horizontal = 0
@@ -112,139 +111,94 @@ custom_colors/font_color = Color( 0.670588, 0.670588, 0.670588, 1 )
 text = "
 Keyboard controls:
  - WASD/Arrow keys: move
- - Space: replace tile"
+ - Space: rotate tile"
 
-[node name="Label2" type="Label" parent="MainMenu/HBoxContainer"]
+[node name="Label2" type="Label" parent="VBoxContainer/MainMenu/HBoxContainer"]
 margin_left = 306.0
-margin_right = 548.0
+margin_right = 534.0
 margin_bottom = 113.0
 size_flags_horizontal = 0
 custom_colors/font_color = Color( 0.670588, 0.670588, 0.670588, 1 )
 text = "
 Mouse controls:
  - Move: move
- - Click: replace tile"
+ - Click: rotate tile"
 
-[node name="Label3" type="Label" parent="MainMenu/HBoxContainer"]
-margin_left = 552.0
-margin_right = 748.0
+[node name="Label3" type="Label" parent="VBoxContainer/MainMenu/HBoxContainer"]
+margin_left = 538.0
+margin_right = 718.0
 margin_bottom = 113.0
 size_flags_horizontal = 0
 custom_colors/font_color = Color( 0.670588, 0.670588, 0.670588, 1 )
 text = "
 CPU controls:
- - none so far :)
-"
+ - difficulty in
+   Options"
 
-[node name="Label" type="Label" parent="MainMenu"]
-margin_top = 547.0
-margin_right = 748.0
-margin_bottom = 573.0
-text = "Gabor Heja, 2023"
-align = 1
-
-[node name="Options" type="VBoxContainer" parent="."]
+[node name="Options" type="VBoxContainer" parent="VBoxContainer"]
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -374.0
-margin_top = -264.5
-margin_right = 374.0
-margin_bottom = 269.5
+margin_top = 547.0
+margin_right = 800.0
+margin_bottom = 713.0
 
-[node name="TextureRect" type="TextureRect" parent="Options"]
-margin_right = 748.0
-margin_bottom = 100.0
-texture = ExtResource( 1 )
-stretch_mode = 4
-
-[node name="Label2" type="Label" parent="Options"]
-margin_top = 104.0
-margin_right = 748.0
-margin_bottom = 188.0
-custom_colors/font_color = Color( 0.87451, 0.717647, 0, 1 )
-text = "A game for GMTK GameJam 2023
-for the theme Roles Reversed
-"
-align = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Options"]
-margin_left = 280.0
-margin_top = 192.0
-margin_right = 468.0
-margin_bottom = 324.0
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Options"]
+margin_left = 274.0
+margin_right = 526.0
+margin_bottom = 166.0
 size_flags_horizontal = 4
 theme = ExtResource( 2 )
 
-[node name="FullScreenButton" type="Button" parent="Options/VBoxContainer"]
-margin_right = 188.0
+[node name="FullScreenButton" type="Button" parent="VBoxContainer/Options/VBoxContainer"]
+margin_right = 252.0
 margin_bottom = 30.0
 text = "Full screen: [?]"
 
-[node name="MusicButton" type="Button" parent="Options/VBoxContainer"]
+[node name="MusicButton" type="Button" parent="VBoxContainer/Options/VBoxContainer"]
 margin_top = 34.0
-margin_right = 188.0
+margin_right = 252.0
 margin_bottom = 64.0
 text = "Music: [?]"
 
-[node name="SoundsButton" type="Button" parent="Options/VBoxContainer"]
+[node name="SoundsButton" type="Button" parent="VBoxContainer/Options/VBoxContainer"]
 margin_top = 68.0
-margin_right = 188.0
+margin_right = 252.0
 margin_bottom = 98.0
 text = "Sounds: [?]"
 
-[node name="OptionsBackButton" type="Button" parent="Options/VBoxContainer"]
+[node name="CpuPlayerDifficultyButton" type="Button" parent="VBoxContainer/Options/VBoxContainer"]
 margin_top = 102.0
-margin_right = 188.0
+margin_right = 252.0
 margin_bottom = 132.0
+text = "CPU player level: [?]"
+
+[node name="OptionsBackButton" type="Button" parent="VBoxContainer/Options/VBoxContainer"]
+margin_top = 136.0
+margin_right = 252.0
+margin_bottom = 166.0
 text = "Back"
 
-[node name="HowToPlay" type="VBoxContainer" parent="."]
+[node name="HowToPlay" type="VBoxContainer" parent="VBoxContainer"]
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -445.0
-margin_top = -271.0
-margin_right = 445.0
-margin_bottom = 271.0
-
-[node name="TextureRect" type="TextureRect" parent="HowToPlay"]
-margin_right = 890.0
-margin_bottom = 100.0
-texture = ExtResource( 1 )
-stretch_mode = 4
-
-[node name="Label2" type="Label" parent="HowToPlay"]
-margin_top = 104.0
-margin_right = 890.0
-margin_bottom = 159.0
-custom_colors/font_color = Color( 0.87451, 0.717647, 0, 1 )
-text = "A game for GMTK GameJam 2023
-for the theme Roles Reversed"
-align = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HowToPlay"]
-margin_left = 79.0
-margin_top = 163.0
-margin_right = 811.0
+margin_top = 192.0
+margin_right = 800.0
 margin_bottom = 542.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HowToPlay"]
+margin_left = 34.0
+margin_right = 766.0
+margin_bottom = 350.0
 size_flags_horizontal = 4
 theme = ExtResource( 2 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HowToPlay/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HowToPlay/VBoxContainer"]
 margin_right = 732.0
-margin_bottom = 345.0
+margin_bottom = 316.0
 
-[node name="Label" type="Label" parent="HowToPlay/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HowToPlay/VBoxContainer/HBoxContainer"]
 margin_right = 732.0
-margin_bottom = 345.0
+margin_bottom = 316.0
 size_flags_horizontal = 0
-text = "
-You heard a story about a precious treasure hidden in
+text = "You heard a story about a precious treasure hidden in
 an enchanted dungeon and decided to seek it.
 
 However the master of the dungeon experimented with magic
@@ -256,51 +210,30 @@ For an unknown reason the spell keeps repeating and as
 you enter the dungeon the race for the treasure begins.
 "
 
-[node name="HowToPlayBackButton" type="Button" parent="HowToPlay/VBoxContainer"]
-margin_top = 349.0
+[node name="HowToPlayBackButton" type="Button" parent="VBoxContainer/HowToPlay/VBoxContainer"]
+margin_top = 320.0
 margin_right = 732.0
-margin_bottom = 379.0
+margin_bottom = 350.0
 text = "Back"
 
-[node name="About" type="VBoxContainer" parent="."]
+[node name="About" type="VBoxContainer" parent="VBoxContainer"]
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -445.0
-margin_top = -271.0
-margin_right = 445.0
-margin_bottom = 271.0
+margin_top = 192.0
+margin_right = 800.0
+margin_bottom = 571.0
 
-[node name="TextureRect" type="TextureRect" parent="About"]
-margin_right = 890.0
-margin_bottom = 100.0
-texture = ExtResource( 1 )
-stretch_mode = 4
-
-[node name="Label2" type="Label" parent="About"]
-margin_top = 104.0
-margin_right = 890.0
-margin_bottom = 159.0
-custom_colors/font_color = Color( 0.87451, 0.717647, 0, 1 )
-text = "A game for GMTK GameJam 2023
-for the theme Roles Reversed"
-align = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="About"]
-margin_left = 51.0
-margin_top = 163.0
-margin_right = 839.0
-margin_bottom = 542.0
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/About"]
+margin_left = 6.0
+margin_right = 794.0
+margin_bottom = 379.0
 size_flags_horizontal = 4
 theme = ExtResource( 2 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="About/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/About/VBoxContainer"]
 margin_right = 788.0
 margin_bottom = 345.0
 
-[node name="Label3" type="Label" parent="About/VBoxContainer/HBoxContainer"]
+[node name="Label3" type="Label" parent="VBoxContainer/About/VBoxContainer/HBoxContainer"]
 margin_right = 400.0
 margin_bottom = 345.0
 size_flags_horizontal = 0
@@ -317,7 +250,7 @@ Icons:
 
 "
 
-[node name="Label4" type="Label" parent="About/VBoxContainer/HBoxContainer"]
+[node name="Label4" type="Label" parent="VBoxContainer/About/VBoxContainer/HBoxContainer"]
 margin_left = 404.0
 margin_right = 788.0
 margin_bottom = 345.0
@@ -335,32 +268,45 @@ Logo:
  made with cooltext.com
 "
 
-[node name="AboutBackButton" type="Button" parent="About/VBoxContainer"]
+[node name="AboutBackButton" type="Button" parent="VBoxContainer/About/VBoxContainer"]
 margin_top = 349.0
 margin_right = 788.0
 margin_bottom = 379.0
 text = "Back"
 
-[connection signal="focus_entered" from="MainMenu/VBoxContainer/Player1Button" to="." method="_on_Button_focus_entered"]
-[connection signal="pressed" from="MainMenu/VBoxContainer/Player1Button" to="." method="_on_Player1Button_pressed"]
-[connection signal="focus_entered" from="MainMenu/VBoxContainer/Player2Button" to="." method="_on_Button_focus_entered"]
-[connection signal="pressed" from="MainMenu/VBoxContainer/Player2Button" to="." method="_on_Player2Button_pressed"]
-[connection signal="focus_entered" from="MainMenu/VBoxContainer/StartButton" to="." method="_on_Button_focus_entered"]
-[connection signal="pressed" from="MainMenu/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
-[connection signal="focus_entered" from="MainMenu/VBoxContainer/OptionsButton" to="." method="_on_Button_focus_entered"]
-[connection signal="pressed" from="MainMenu/VBoxContainer/OptionsButton" to="." method="_on_OptionsButton_pressed"]
-[connection signal="focus_entered" from="MainMenu/VBoxContainer/HowToPlayButton" to="." method="_on_Button_focus_entered"]
-[connection signal="pressed" from="MainMenu/VBoxContainer/HowToPlayButton" to="." method="_on_HowToPlayButton_pressed"]
-[connection signal="focus_entered" from="MainMenu/VBoxContainer/AboutButton" to="." method="_on_Button_focus_entered"]
-[connection signal="pressed" from="MainMenu/VBoxContainer/AboutButton" to="." method="_on_AboutButton_pressed"]
-[connection signal="focus_entered" from="MainMenu/VBoxContainer/ExitButton" to="." method="_on_Button_focus_entered"]
-[connection signal="pressed" from="MainMenu/VBoxContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
-[connection signal="focus_entered" from="Options/VBoxContainer/FullScreenButton" to="." method="_on_Button_focus_entered"]
-[connection signal="pressed" from="Options/VBoxContainer/FullScreenButton" to="." method="_on_FullScreenButton_pressed"]
-[connection signal="focus_entered" from="Options/VBoxContainer/MusicButton" to="." method="_on_Button_focus_entered"]
-[connection signal="pressed" from="Options/VBoxContainer/MusicButton" to="." method="_on_MusicButton_pressed"]
-[connection signal="focus_entered" from="Options/VBoxContainer/SoundsButton" to="." method="_on_Button_focus_entered"]
-[connection signal="pressed" from="Options/VBoxContainer/SoundsButton" to="." method="_on_SoundsButton_pressed"]
-[connection signal="pressed" from="Options/VBoxContainer/OptionsBackButton" to="." method="_on_OptionsBackButton_pressed"]
-[connection signal="pressed" from="HowToPlay/VBoxContainer/HowToPlayBackButton" to="." method="_on_HowToPlayBackButton_pressed"]
-[connection signal="pressed" from="About/VBoxContainer/AboutBackButton" to="." method="_on_AboutBackButton_pressed"]
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -400.0
+margin_top = -32.0
+margin_right = 400.0
+text = "Gabor Heja, 2023"
+align = 1
+
+[connection signal="focus_entered" from="VBoxContainer/MainMenu/VBoxContainer/Player1Button" to="." method="_on_Button_focus_entered"]
+[connection signal="pressed" from="VBoxContainer/MainMenu/VBoxContainer/Player1Button" to="." method="_on_Player1Button_pressed"]
+[connection signal="focus_entered" from="VBoxContainer/MainMenu/VBoxContainer/Player2Button" to="." method="_on_Button_focus_entered"]
+[connection signal="pressed" from="VBoxContainer/MainMenu/VBoxContainer/Player2Button" to="." method="_on_Player2Button_pressed"]
+[connection signal="focus_entered" from="VBoxContainer/MainMenu/VBoxContainer/StartButton" to="." method="_on_Button_focus_entered"]
+[connection signal="pressed" from="VBoxContainer/MainMenu/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="focus_entered" from="VBoxContainer/MainMenu/VBoxContainer/OptionsButton" to="." method="_on_Button_focus_entered"]
+[connection signal="pressed" from="VBoxContainer/MainMenu/VBoxContainer/OptionsButton" to="." method="_on_OptionsButton_pressed"]
+[connection signal="focus_entered" from="VBoxContainer/MainMenu/VBoxContainer/HowToPlayButton" to="." method="_on_Button_focus_entered"]
+[connection signal="pressed" from="VBoxContainer/MainMenu/VBoxContainer/HowToPlayButton" to="." method="_on_HowToPlayButton_pressed"]
+[connection signal="focus_entered" from="VBoxContainer/MainMenu/VBoxContainer/AboutButton" to="." method="_on_Button_focus_entered"]
+[connection signal="pressed" from="VBoxContainer/MainMenu/VBoxContainer/AboutButton" to="." method="_on_AboutButton_pressed"]
+[connection signal="focus_entered" from="VBoxContainer/MainMenu/VBoxContainer/ExitButton" to="." method="_on_Button_focus_entered"]
+[connection signal="pressed" from="VBoxContainer/MainMenu/VBoxContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
+[connection signal="focus_entered" from="VBoxContainer/Options/VBoxContainer/FullScreenButton" to="." method="_on_Button_focus_entered"]
+[connection signal="pressed" from="VBoxContainer/Options/VBoxContainer/FullScreenButton" to="." method="_on_FullScreenButton_pressed"]
+[connection signal="focus_entered" from="VBoxContainer/Options/VBoxContainer/MusicButton" to="." method="_on_Button_focus_entered"]
+[connection signal="pressed" from="VBoxContainer/Options/VBoxContainer/MusicButton" to="." method="_on_MusicButton_pressed"]
+[connection signal="focus_entered" from="VBoxContainer/Options/VBoxContainer/SoundsButton" to="." method="_on_Button_focus_entered"]
+[connection signal="pressed" from="VBoxContainer/Options/VBoxContainer/SoundsButton" to="." method="_on_SoundsButton_pressed"]
+[connection signal="focus_entered" from="VBoxContainer/Options/VBoxContainer/CpuPlayerDifficultyButton" to="." method="_on_Button_focus_entered"]
+[connection signal="pressed" from="VBoxContainer/Options/VBoxContainer/CpuPlayerDifficultyButton" to="." method="_on_CpuPlayerDifficultyButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Options/VBoxContainer/OptionsBackButton" to="." method="_on_OptionsBackButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/HowToPlay/VBoxContainer/HowToPlayBackButton" to="." method="_on_HowToPlayBackButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/About/VBoxContainer/AboutBackButton" to="." method="_on_AboutBackButton_pressed"]

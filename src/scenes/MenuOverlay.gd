@@ -2,23 +2,23 @@ extends Control
 
 signal start_button_pressed
 
-onready var player1_button: Button = $MainMenu/VBoxContainer/Player1Button
-onready var player2_button: Button = $MainMenu/VBoxContainer/Player2Button
-onready var start_button: Button = $MainMenu/VBoxContainer/StartButton
-onready var options_button: Button = $MainMenu/VBoxContainer/OptionsButton
-onready var how_to_play_button: Button = $MainMenu/VBoxContainer/HowToPlayButton
-onready var about_button: Button = $MainMenu/VBoxContainer/AboutButton
-onready var exit_button: Button = $MainMenu/VBoxContainer/ExitButton
+onready var player1_button: Button = $VBoxContainer/MainMenu/VBoxContainer/Player1Button
+onready var player2_button: Button = $VBoxContainer/MainMenu/VBoxContainer/Player2Button
+onready var start_button: Button = $VBoxContainer/MainMenu/VBoxContainer/StartButton
+onready var options_button: Button = $VBoxContainer/MainMenu/VBoxContainer/OptionsButton
+onready var how_to_play_button: Button = $VBoxContainer/MainMenu/VBoxContainer/HowToPlayButton
+onready var about_button: Button = $VBoxContainer/MainMenu/VBoxContainer/AboutButton
+onready var exit_button: Button = $VBoxContainer/MainMenu/VBoxContainer/ExitButton
 
-onready var about_back_button: Button = $About/VBoxContainer/AboutBackButton
+onready var about_back_button: Button = $VBoxContainer/About/VBoxContainer/AboutBackButton
 
-onready var options_fullscreen_button: = $Options/VBoxContainer/FullScreenButton
-onready var options_music_button: = $Options/VBoxContainer/MusicButton
-onready var options_sounds_button: = $Options/VBoxContainer/SoundsButton
-onready var options_back_button: Button = $Options/VBoxContainer/OptionsBackButton
+onready var options_fullscreen_button: = $VBoxContainer/Options/VBoxContainer/FullScreenButton
+onready var options_music_button: = $VBoxContainer/Options/VBoxContainer/MusicButton
+onready var options_sounds_button: = $VBoxContainer/Options/VBoxContainer/SoundsButton
+onready var cpu_player_difficulty_button: = $VBoxContainer/Options/VBoxContainer/CpuPlayerDifficultyButton
+onready var options_back_button: Button = $VBoxContainer/Options/VBoxContainer/OptionsBackButton
 
-onready var how_to_play_back_button: Button = $HowToPlay/VBoxContainer/HowToPlayBackButton
-
+onready var how_to_play_back_button: Button = $VBoxContainer/HowToPlay/VBoxContainer/HowToPlayBackButton
 
 var player1_control = GameState.CONTROL_MOUSE
 var player2_control = GameState.CONTROL_CPU
@@ -47,6 +47,16 @@ func get_on_off_text(a):
 	
 	return "Off"
 
+func get_cpu_player_difficulty(n):
+	if n == 1:
+		return "Easy"
+	elif n == 2:
+		return "Normal"
+	elif n == 3:
+		return "Hard"
+	
+	print("?!")
+
 func update_buttons():
 	player1_button.text = "Player 1: " + get_text_from_control_number(player1_control)
 	player2_button.text = "Player 2: " + get_text_from_control_number(player2_control)
@@ -54,6 +64,7 @@ func update_buttons():
 	options_fullscreen_button.text = "Full screen: " + get_on_off_text(GameState.fullScreenEnabled)
 	options_music_button.text = "Music: " + get_on_off_text(GameState.musicEnabled)
 	options_sounds_button.text = "Sounds: " + get_on_off_text(GameState.soundsEnabled)
+	cpu_player_difficulty_button.text = "CPU player level: " + get_cpu_player_difficulty(GameState.cpu_player_difficulty)
 	
 	if (player1_control == 1 or player1_control == 0) and (player1_control == player2_control):
 		start_button.disabled = true
@@ -64,31 +75,31 @@ func show_main_menu(button_to_focus: Button):
 	if not button_to_focus:
 		button_to_focus = start_button
 	
-	$MainMenu.show()
-	$Options.hide()
-	$HowToPlay.hide()
-	$About.hide()
+	$VBoxContainer/MainMenu.show()
+	$VBoxContainer/Options.hide()
+	$VBoxContainer/HowToPlay.hide()
+	$VBoxContainer/About.hide()
 	button_to_focus.grab_focus()
 
 func show_about_menu():
-	$MainMenu.hide()
-	$Options.hide()
-	$HowToPlay.hide()
-	$About.show()
+	$VBoxContainer/MainMenu.hide()
+	$VBoxContainer/Options.hide()
+	$VBoxContainer/HowToPlay.hide()
+	$VBoxContainer/About.show()
 	about_back_button.grab_focus()
 
 func show_options_menu():
-	$MainMenu.hide()
-	$Options.show()
-	$HowToPlay.hide()
-	$About.hide()
+	$VBoxContainer/MainMenu.hide()
+	$VBoxContainer/Options.show()
+	$VBoxContainer/HowToPlay.hide()
+	$VBoxContainer/About.hide()
 	options_back_button.grab_focus()
 
 func show_how_to_play_menu():
-	$MainMenu.hide()
-	$Options.hide()
-	$HowToPlay.show()
-	$About.hide()
+	$VBoxContainer/MainMenu.hide()
+	$VBoxContainer/Options.hide()
+	$VBoxContainer/HowToPlay.show()
+	$VBoxContainer/About.hide()
 	how_to_play_back_button.grab_focus()
 
 func button_pressed():
@@ -135,6 +146,12 @@ func _on_StartButton_pressed():
 
 
 # --- options menu ---
+func _on_FullScreenButton_pressed():
+	button_pressed()
+	GameState.fullScreenEnabled = !GameState.fullScreenEnabled
+	GameState.applyOptions()
+	update_buttons()
+
 func _on_MusicButton_pressed():
 	button_pressed()
 	GameState.musicEnabled = !GameState.musicEnabled
@@ -147,9 +164,14 @@ func _on_SoundsButton_pressed():
 	GameState.applyOptions()
 	update_buttons()
 
-func _on_FullScreenButton_pressed():
+func _on_CpuPlayerDifficultyButton_pressed():
 	button_pressed()
-	GameState.fullScreenEnabled = !GameState.fullScreenEnabled
+	
+	GameState.cpu_player_difficulty += 1
+	
+	if GameState.cpu_player_difficulty > 3:
+		GameState.cpu_player_difficulty = 1
+		
 	GameState.applyOptions()
 	update_buttons()
 
