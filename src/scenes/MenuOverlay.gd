@@ -14,8 +14,8 @@ onready var about_button: Button = $MainMenu/VBoxContainer/AboutButton
 onready var exit_button: Button = $MainMenu/VBoxContainer/ExitButton
 onready var about_back_button: Button = $About/VBoxContainer/AboutBackButton
 
-var player1_control = Lib.CONTROL_MOUSE
-var player2_control = Lib.CONTROL_CPU
+var player1_control = GameState.CONTROL_MOUSE
+var player2_control = GameState.CONTROL_CPU
 
 func _ready():
 	if OS.has_feature("mobile") or OS.has_feature("web"):
@@ -55,21 +55,30 @@ func show_about_menu():
 	about_back_button.grab_focus()
 
 func _on_Player1Button_pressed():
+	AudioManager.play_sound(1)
 	player1_control = (player1_control + 1) % 3
 	update_buttons()
 
 func _on_Player2Button_pressed():
+	AudioManager.play_sound(1)
 	player2_control = (player2_control + 1) % 3
 	update_buttons()
 
 func _on_AboutButton_pressed():
+	AudioManager.play_sound(1)
 	show_about_menu()
 
 func _on_AboutBackButton_pressed():
+	AudioManager.play_sound(1)
 	show_main_menu(true)
 
 func _on_ExitButton_pressed():
+	AudioManager.play_sound(1)
 	get_tree().quit()
 
 func _on_StartButton_pressed():
+	AudioManager.play_sound(3)
 	emit_signal("start_button_pressed")
+
+func _on_Button_focus_entered():
+	AudioManager.play_sound(0)

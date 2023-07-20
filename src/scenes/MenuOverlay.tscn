@@ -157,55 +157,60 @@ for the theme Roles Reversed
 align = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="About"]
-margin_left = 81.0
+margin_left = 72.0
 margin_top = 192.0
-margin_right = 809.0
+margin_right = 818.0
 margin_bottom = 484.0
 size_flags_horizontal = 4
 theme = ExtResource( 2 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="About/VBoxContainer"]
-margin_right = 728.0
+margin_right = 746.0
 margin_bottom = 258.0
 
 [node name="Label3" type="Label" parent="About/VBoxContainer/HBoxContainer"]
-margin_right = 388.0
+margin_right = 384.0
 margin_bottom = 258.0
 size_flags_horizontal = 0
 text = "Code and levels:
-Gabor Heja
+ Gabor Heja
 
 Graphics:
-Kenney (kenney.nl)
+ Kenney (kenney.nl)
 
 Font:
-Eevee Somepx (somepx.itch.io)   
+ Eeve Somepx (somepx.itch.io)   
 "
 
 [node name="Label4" type="Label" parent="About/VBoxContainer/HBoxContainer"]
-margin_left = 392.0
-margin_right = 728.0
+margin_left = 388.0
+margin_right = 746.0
 margin_bottom = 258.0
 size_flags_horizontal = 0
 text = "Music:
-?
+ Psychronic (via pixabay.com)
 
 Sounds:
-?
+ Kenney (kenney.nl)
 
-Logo made with cooltext.com
-
+Logo:
+ made with cooltext.com
 "
 
 [node name="AboutBackButton" type="Button" parent="About/VBoxContainer"]
 margin_top = 262.0
-margin_right = 728.0
+margin_right = 746.0
 margin_bottom = 292.0
 text = "Back"
 
+[connection signal="focus_entered" from="MainMenu/VBoxContainer/Player1Button" to="." method="_on_Button_focus_entered"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/Player1Button" to="." method="_on_Player1Button_pressed"]
+[connection signal="focus_entered" from="MainMenu/VBoxContainer/Player2Button" to="." method="_on_Button_focus_entered"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/Player2Button" to="." method="_on_Player2Button_pressed"]
+[connection signal="focus_entered" from="MainMenu/VBoxContainer/StartButton" to="." method="_on_Button_focus_entered"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="focus_entered" from="MainMenu/VBoxContainer/AboutButton" to="." method="_on_Button_focus_entered"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/AboutButton" to="." method="_on_AboutButton_pressed"]
+[connection signal="focus_entered" from="MainMenu/VBoxContainer/ExitButton" to="." method="_on_Button_focus_entered"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="pressed" from="About/VBoxContainer/AboutBackButton" to="." method="_on_AboutBackButton_pressed"]

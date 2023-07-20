@@ -6,6 +6,7 @@
 extents = Vector3( 0.5, 0.5, 0.5 )
 
 [node name="TileWallB" type="StaticBody"]
+input_ray_pickable = false
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )

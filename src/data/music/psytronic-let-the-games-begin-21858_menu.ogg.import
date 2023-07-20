@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/psytronic-let-the-games-begin-21858_menu.ogg-5eb4e8a8d18ab67848f2eff9c36a1527.oggstr"
+
+[deps]
+
+source_file="res://data/music/psytronic-let-the-games-begin-21858_menu.ogg"
+dest_files=[ "res://.import/psytronic-let-the-games-begin-21858_menu.ogg-5eb4e8a8d18ab67848f2eff9c36a1527.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

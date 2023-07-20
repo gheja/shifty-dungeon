@@ -14,7 +14,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 1.5, 2.5 ),
+"times": PoolRealArray( 0, 0.2, 1.7, 3 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -50,6 +50,7 @@ margin_left = -214.0
 margin_top = -55.5
 margin_right = 214.0
 margin_bottom = 55.5
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 margin_right = 428.0

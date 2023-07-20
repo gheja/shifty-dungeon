@@ -10,13 +10,15 @@ config_version=4
 
 [application]
 
-config/name="pathfinder test 1"
+config/name="Shifty Dungeon"
 run/main_scene="res://scenes/MainGame.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 Lib="*res://scenes/Lib.gd"
+GameState="*res://scenes/GameState.gd"
+AudioManager="*res://scenes/AudioManager.gd"
 
 [gui]
 

@@ -6,6 +6,7 @@
 extents = Vector3( 0.5, 0.5, 0.5 )
 
 [node name="TileColumnA" type="StaticBody"]
+input_ray_pickable = false
 
 [node name="column" parent="." instance=ExtResource( 1 )]
 

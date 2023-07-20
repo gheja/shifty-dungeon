@@ -6,6 +6,7 @@
 extents = Vector3( 0.5, 0.5, 0.5 )
 
 [node name="TileBarrelsA" type="StaticBody"]
+input_ray_pickable = false
 
 [node name="barrel" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.223161 )

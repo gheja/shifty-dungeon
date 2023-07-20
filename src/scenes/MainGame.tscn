@@ -138,6 +138,10 @@ modulate = Color( 0, 0.576471, 1, 1 )
 text = "P2"
 font = ExtResource( 1 )
 
+[node name="DebugStuffs" type="Spatial" parent="."]
+
+[node name="DebugPathSticks" type="Spatial" parent="DebugStuffs"]
+
 [node name="GameOverlay" parent="." instance=ExtResource( 6 )]
 
 [node name="MenuOverlay" parent="." instance=ExtResource( 5 )]
@@ -147,22 +151,27 @@ visible = false
 wait_time = 5.0
 
 [node name="RestartTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 3.5
 one_shot = true
 
 [node name="PlayerRegenerateRouteV2Timer" type="Timer" parent="."]
 autostart = true
 
 [node name="CpuDmStep1Timer" type="Timer" parent="."]
-wait_time = 0.85
+wait_time = 0.9
 autostart = true
 
 [node name="CpuDmStep2Timer" type="Timer" parent="."]
 wait_time = 0.15
-one_shot = true
+autostart = true
+
+[node name="DebugPathSticksTimer" type="Timer" parent="."]
+wait_time = 0.33
+autostart = true
 
 [connection signal="timeout" from="ControlSwapTimer" to="." method="_on_ControlSwapTimer_timeout"]
 [connection signal="timeout" from="RestartTimer" to="." method="_on_RestartTimer_timeout"]
 [connection signal="timeout" from="PlayerRegenerateRouteV2Timer" to="." method="_on_PlayerRegenerateRouteV2Timer_timeout"]
 [connection signal="timeout" from="CpuDmStep1Timer" to="." method="_on_CpuDmStep1Timer_timeout"]
 [connection signal="timeout" from="CpuDmStep2Timer" to="." method="_on_CpuDmStep2Timer_timeout"]
+[connection signal="timeout" from="DebugPathSticksTimer" to="." method="_on_DebugPathSticksTimer_timeout"]

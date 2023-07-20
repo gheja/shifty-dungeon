@@ -1,7 +1,7 @@
 extends Control
 
-func update_text(swapped):
-	if not swapped:
-		$VBoxContainer/Label3.hide()
+func update_text():
+	if not GameState.is_swapped:
+		$Control/Player2Container.hide()
 	else:
-		$VBoxContainer/Label2.hide()
+		$Control/Player1Container.hide()
