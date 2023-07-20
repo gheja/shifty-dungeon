@@ -183,6 +183,10 @@ func _on_ControlSwapTimer_timeout():
 	tmp.update_text(is_swapped)
 	get_tree().root.add_child(tmp)
 
+func dm_click():
+	block_rotate()
+	level.bake_navmesh()
+
 func _unhandled_input(event):
 	if is_finished:
 		return
@@ -190,8 +194,31 @@ func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.pressed:
 			if dm_control == Lib.CONTROL_MOUSE:
-				block_rotate()
-				level.bake_navmesh()
+				dm_click()
+
+func cpu_dm_step():
+	var path = $Player.get_path()
+	var blocks = get_tree().get_nodes_in_group("blocks")
+	var blocks_in_path = []
+	
+	for step in path:
+		for block in blocks:
+			if block.is_in_group("static_blocks"):
+				continue
+			
+			# note: this is intentionally too wide, so DM CPU will have more
+			# tiles to pick from - though, it's still buggy...
+			if Lib.distXZ(step, block.global_transform.origin) < 3.0:
+				blocks_in_path.append(block)
+	
+	if blocks_in_path.size() == 0:
+		return
+	
+	blocks_in_path.shuffle()
+	
+	set_block_selection(blocks_in_path[0])
+	
+	$CpuDmStep2Timer.start()
 
 func game_finished():
 	if is_finished:
@@ -209,3 +236,31 @@ func game_finished():
 
 func _on_RestartTimer_timeout():
 	show_menu()
+
+
+func _on_PlayerRegenerateRouteV2Timer_timeout():
+	if not is_running:
+		return
+	
+	# doing a pathing so the other player can calculate affected blocks
+	$Player.regenerate_route_schedule()
+
+func _on_CpuDmStep1Timer_timeout():
+	if not is_running:
+		return
+	
+	if dm_control != Lib.CONTROL_CPU:
+		return
+	
+	cpu_dm_step()
+
+func _on_CpuDmStep2Timer_timeout():
+	if not is_running:
+		return
+	
+	if dm_control != Lib.CONTROL_CPU:
+		return
+	
+	dm_click()
+
+

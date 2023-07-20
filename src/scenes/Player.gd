@@ -96,3 +96,6 @@ func regenerate_route_schedule():
 
 func _on_RegenerateRouteTimer_timeout():
 	regenerate_route()
+
+func get_path():
+	return path

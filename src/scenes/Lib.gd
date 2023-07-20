@@ -11,3 +11,6 @@ func get_first_group_member(group_name):
 		print("?!")
 	
 	return members[0]
+
+func distXZ(p1, p2):
+	return abs((Vector2(p1.x, p1.z) - Vector2(p2.x, p2.z)).length())
