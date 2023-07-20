@@ -1,5 +1,7 @@
 extends Control
 
+signal start_button_pressed
+
 # controls:
 # - 0: keyboard
 # - 1: mouse
@@ -12,8 +14,8 @@ onready var about_button: Button = $MainMenu/VBoxContainer/AboutButton
 onready var exit_button: Button = $MainMenu/VBoxContainer/ExitButton
 onready var about_back_button: Button = $About/VBoxContainer/AboutBackButton
 
-var player1_control = 1
-var player2_control = 0
+var player1_control = Lib.CONTROL_MOUSE
+var player2_control = Lib.CONTROL_CPU
 
 func _ready():
 	if OS.has_feature("mobile") or OS.has_feature("web"):
@@ -39,6 +41,18 @@ func update_buttons():
 	else:
 		start_button.disabled = false
 
+func show_main_menu(back_from_about: bool):
+	$About.hide()
+	$MainMenu.show()
+	if back_from_about:
+		about_button.grab_focus()
+	else:
+		player1_button.grab_focus()
+
+func show_about_menu():
+	$MainMenu.hide()
+	$About.show()
+	about_back_button.grab_focus()
 
 func _on_Player1Button_pressed():
 	player1_control = (player1_control + 1) % 3
@@ -49,14 +63,13 @@ func _on_Player2Button_pressed():
 	update_buttons()
 
 func _on_AboutButton_pressed():
-	$MainMenu.hide()
-	$About.show()
-	about_back_button.grab_focus()
+	show_about_menu()
 
 func _on_AboutBackButton_pressed():
-	$About.hide()
-	$MainMenu.show()
-	about_button.grab_focus()
+	show_main_menu(true)
 
 func _on_ExitButton_pressed():
 	get_tree().quit()
+
+func _on_StartButton_pressed():
+	emit_signal("start_button_pressed")

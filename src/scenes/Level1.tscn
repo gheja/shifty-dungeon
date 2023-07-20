@@ -129,10 +129,9 @@ transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -15, 0,
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15, 0, -10 )
 
 [node name="PlayerStartPosition" parent="." instance=ExtResource( 12 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.562, 0.5, 4.07 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.16412, 0.5, 5.41062 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
-autostart = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

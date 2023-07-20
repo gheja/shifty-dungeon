@@ -1,0 +1,79 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://theme.tres" type="Theme" id=1]
+[ext_resource path="res://default_font_big.tres" type="DynamicFont" id=2]
+[ext_resource path="res://scenes/RolesReversedOverlay.gd" type="Script" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "default"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("VBoxContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 1.5, 2.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[node name="RolesReversedOverlay" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -214.0
+margin_top = -55.5
+margin_right = 214.0
+margin_bottom = 55.5
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_right = 428.0
+margin_bottom = 51.0
+custom_fonts/font = ExtResource( 2 )
+text = "Roles reversed!"
+align = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+modulate = Color( 1, 0, 0, 1 )
+margin_top = 55.0
+margin_right = 428.0
+margin_bottom = 81.0
+text = "Player 1 is now the Orc"
+align = 1
+
+[node name="Label3" type="Label" parent="VBoxContainer"]
+modulate = Color( 0, 0.576471, 1, 1 )
+margin_top = 85.0
+margin_right = 428.0
+margin_bottom = 111.0
+text = "Player 2 is now the Dungeon Master"
+align = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "default"
+anims/default = SubResource( 1 )

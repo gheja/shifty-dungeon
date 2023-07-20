@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://data/models/coin.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/TileGoal.gd" type="Script" id=2]
 
 [sub_resource type="CapsuleShape" id=2]
 radius = 0.3
@@ -52,13 +53,16 @@ tracks/0/keys = {
 }
 
 [node name="TileGoal" type="Spatial"]
+script = ExtResource( 2 )
 
 [node name="coin" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 3.49691e-07, 0, 1, 0, -3.49691e-07, 0, 1, 0, 0.3, 0 )
 
-[node name="StaticBody" type="StaticBody" parent="."]
+[node name="Area" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.5, 0 )
 shape = SubResource( 2 )
 
