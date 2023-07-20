@@ -16,12 +16,13 @@ Checkout the (barely playable) entry: https://gheja.itch.io/shifty-dungeon
 
 The jam was 48 hours long however my entry was made in about 10 hours.
 This is my second game made in Godot and although the entry is far from
-what I really wanted to deliver I learned a lot of new things, so overall
-I am happy that I participated.
+what I really wanted to deliver I learned a lot of new things (navmeshes,
+dynamic navmeshes, pathfinding, handling 3D models, building blocks with
+them, etc.), so overall I am happy that I participated.
 
 The jam had a *lot* of strong entries, I was genuinely surprised it
-ranked right around the middle. (For Creativity it ranked in the top 25%
-- I'm grateful for the people seeing the potential.)
+ranked right around the middle. (For Creativity it ranked in the top
+25% - I'm grateful for the people seeing the potential.)
 
 
 ## The latest version
@@ -34,11 +35,17 @@ Checkout the latest version: https://gheja.itch.io/shifty-dungeon-latest
 
 ## Credits
 
+The jam rules stated: "The game should be developed during the jam, but
+you may use pre-existing code and can use whatever art and audio assets
+you have the legal right to use."
+
+I decided to go with only publicly available royalty free assets.
+
 Code, additional graphics: Gabor Heja
 
-Graphics:  Kenney (kenney.nl)
+Graphics: Kenney (kenney.nl)
 
-Icons:  Orchid, Jordan Hughes and SVG Repo (via svgrepo.com)
+Icons: Orchid, Jordan Hughes and SVG Repo (via svgrepo.com)
 
 Font: Eeve Somepx (somepx.itch.io)
 
