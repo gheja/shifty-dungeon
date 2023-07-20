@@ -22,11 +22,18 @@ AudioManager="*res://scenes/AudioManager.gd"
 
 [display]
 
-window/size/width=800
+window/size/width=1066
 
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+
+[importer_defaults]
+
+ogg_vorbis={
+"loop": false,
+"loop_offset": 0
+}
 
 [input]
 

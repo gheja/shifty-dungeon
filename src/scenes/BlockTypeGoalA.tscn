@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/TileFloorB.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/TileFloorA.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://scenes/TileWallB.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/BlockType_CommonScript.gd" type="Script" id=6]
 [ext_resource path="res://scenes/TileGoalB.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/TileColumnA.tscn" type="PackedScene" id=8]
 
 [node name="BlockTypeGoalA" type="Spatial" groups=["blocks", "goals"]]
 script = ExtResource( 6 )
@@ -24,50 +25,50 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
 [node name="TileFloorA6" parent="BlockBase/Contents/Tiles" index="3" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1 )
 
-[node name="TileFloorA13" parent="BlockBase/Contents/Tiles" index="4" instance=ExtResource( 2 )]
+[node name="TileFloorA7" parent="BlockBase/Contents/Tiles" index="4" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1 )
+
+[node name="TileFloorA13" parent="BlockBase/Contents/Tiles" index="5" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )
 
-[node name="TileFloorA14" parent="BlockBase/Contents/Tiles" index="5" instance=ExtResource( 2 )]
+[node name="TileFloorA14" parent="BlockBase/Contents/Tiles" index="6" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1 )
 
-[node name="TileFloorA23" parent="BlockBase/Contents/Tiles" index="6" instance=ExtResource( 2 )]
+[node name="TileFloorA15" parent="BlockBase/Contents/Tiles" index="7" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1 )
+
+[node name="TileFloorA23" parent="BlockBase/Contents/Tiles" index="8" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0 )
 
-[node name="TileFloorA25" parent="BlockBase/Contents/Tiles" index="7" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1 )
-
-[node name="TileWallA" parent="BlockBase/Contents/Tiles" index="8" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2 )
-
-[node name="TileWallA3" parent="BlockBase/Contents/Tiles" index="9" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2 )
-
-[node name="TileWallA2" parent="BlockBase/Contents/Tiles" index="10" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1 )
-
-[node name="TileWallA4" parent="BlockBase/Contents/Tiles" index="11" instance=ExtResource( 3 )]
+[node name="TileFloorA24" parent="BlockBase/Contents/Tiles" index="9" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1 )
 
-[node name="TileWallA5" parent="BlockBase/Contents/Tiles" index="12" instance=ExtResource( 3 )]
+[node name="TileFloorA25" parent="BlockBase/Contents/Tiles" index="10" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1 )
+
+[node name="TileFloorA26" parent="BlockBase/Contents/Tiles" index="11" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1 )
+
+[node name="TileWallA" parent="BlockBase/Contents/Tiles" index="12" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2 )
+
+[node name="TileWallA3" parent="BlockBase/Contents/Tiles" index="13" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2 )
+
+[node name="TileWallA5" parent="BlockBase/Contents/Tiles" index="14" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2 )
 
-[node name="TileWallA11" parent="BlockBase/Contents/Tiles" index="13" instance=ExtResource( 3 )]
+[node name="TileWallA11" parent="BlockBase/Contents/Tiles" index="15" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2 )
 
-[node name="TileWallA6" parent="BlockBase/Contents/Tiles" index="14" instance=ExtResource( 3 )]
+[node name="TileWallA6" parent="BlockBase/Contents/Tiles" index="16" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2 )
-
-[node name="TileWallA15" parent="BlockBase/Contents/Tiles" index="15" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2 )
-
-[node name="TileWallA16" parent="BlockBase/Contents/Tiles" index="16" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2 )
 
 [node name="TileWallA10" parent="BlockBase/Contents/Tiles" index="17" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2 )
 
-[node name="TileFloorB" parent="BlockBase/Contents/Tiles" index="18" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
+[node name="TileFloorB3" parent="BlockBase/Contents/Tiles" index="18" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
 
 [node name="TileFloorB2" parent="BlockBase/Contents/Tiles" index="19" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1 )
@@ -85,14 +86,26 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -2 )
 
 [node name="TileWallB4" parent="BlockBase/Contents/Tiles" index="24" instance=ExtResource( 5 )]
-transform = Transform( 2.98023e-08, 0, -1, 0, 1, 0, 1, 0, 2.98023e-08, 2, 0, -1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2 )
 
 [node name="TileWallB5" parent="BlockBase/Contents/Tiles" index="25" instance=ExtResource( 5 )]
-transform = Transform( 2.98023e-08, 0, -1, 0, 1, 0, 1, 0, 2.98023e-08, 2, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
 
 [node name="TileWallB6" parent="BlockBase/Contents/Tiles" index="26" instance=ExtResource( 5 )]
-transform = Transform( 2.98023e-08, 0, -1, 0, 1, 0, 1, 0, 2.98023e-08, 2, 0, 1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2 )
 
 [node name="TileGoalB" parent="BlockBase/Contents/Tiles" index="27" instance=ExtResource( 7 )]
+
+[node name="TileColumnA" parent="BlockBase/Contents/Tiles" index="28" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1 )
+
+[node name="TileColumnA2" parent="BlockBase/Contents/Tiles" index="29" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1 )
+
+[node name="TileColumnA3" parent="BlockBase/Contents/Tiles" index="30" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1 )
+
+[node name="TileColumnA4" parent="BlockBase/Contents/Tiles" index="31" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1 )
 
 [editable path="BlockBase"]

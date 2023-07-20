@@ -85,28 +85,50 @@ func stop_game():
 	$RegenerateRouteTimer.stop()
 
 func regenerate_route():
+	print("regenerate_route")
+	
 	var nav: Navigation = Lib.get_first_group_member("navigations")
 	var goal: Spatial = Lib.get_first_group_member("goals")
-	var newPath
 	
 	if not goal:
 		return
 	
-	newPath = Lib.toArray(nav.get_simple_path(global_transform.origin, goal.global_transform.origin))
-	path = newPath
+	path = Lib.toArray(nav.get_simple_path(global_transform.origin, goal.global_transform.origin))
+	
+	# ?!?!
+	# path = Lib.toArray(NavigationServer.map_get_path(NavigationServer.get_maps()[0], global_transform.origin, goal.global_transform.origin, true, 1))
 	
 	# print("path from: ", global_transform.origin, ", path to: ", goal.global_transform.origin)
 	# print(path)
 
 func set_input_target_position(position):
 	inputTargetPosition = position
-	
+
+func get_path():
+	return path
+
 func regenerate_route_schedule():
+	print("regenerate_route_schedule")
+	
 	# cannot generate route right after navmesh baking, use a little delay here
 	$RegenerateRouteTimer.start()
+
+func navmesh_changed():
+	# generate route right now and...
+	regenerate_route_schedule()
+	
+	# restart the interval timer
+	$RegenerateRouteInterval.start()
 
 func _on_RegenerateRouteTimer_timeout():
 	regenerate_route()
 
-func get_path():
-	return path
+func _on_RegenerateRouteInterval_timeout():
+	# this timer is for cases where the level changes but
+	# regenerate_route_schedule() is not called
+	
+	if GameState.state != GameState.STATE_RUNNING:
+		return
+	
+	# doing a pathing so the other player can calculate affected blocks
+	regenerate_route_schedule()

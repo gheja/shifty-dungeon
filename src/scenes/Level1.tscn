@@ -1,13 +1,13 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://scenes/BlockTypeB.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/BlockTypeEmpty6.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/BlockTypeA.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/BlockTypeD.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/BlockTypeF.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/BlockTypeE.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/Level1.gd" type="Script" id=7]
 [ext_resource path="res://scenes/BlockTypeG.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/BlockTypeH.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/BlockTypeEmpty5.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/BlockTypeBorderEdge.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scenes/BlockTypeBorderCorner.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scenes/PlayerStartPosition.tscn" type="PackedScene" id=12]
@@ -129,8 +129,3 @@ transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15, 0, 
 
 [node name="PlayerStartPosition" parent="." instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.16412, 0.5, 5.41062 )
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 2.0
-
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

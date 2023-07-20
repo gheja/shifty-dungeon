@@ -10,6 +10,7 @@ var mouse_cursors = [
 ]
 
 var game_progressbar_target = 0
+var game_checkpoints = 3
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -18,27 +19,46 @@ func _process(delta):
 	var p = get_viewport().get_mouse_position()
 	$MouseCursor.rect_position = p - Vector2(3, 3)
 	
-	$TextureProgress2.value = Lib.plerp($TextureProgress2.value, game_progressbar_target, 0.25, delta)
+	$TextureProgress2Part.value = Lib.plerp($TextureProgress2Part.value, game_progressbar_target, 0.25, delta)
+	$TextureProgress3Part.value = Lib.plerp($TextureProgress3Part.value, game_progressbar_target, 0.25, delta)
 
 func reset():
 	$TextureProgress.value = 0
-	$TextureProgress2.value = 0
+	$TextureProgress2Part.value = 0
+	$TextureProgress3Part.value = 0
 	game_progressbar_target = 0
+
+func set_game_checkpoints(value):
+	game_checkpoints = value
+	
+	$TextureProgress2Part.visible = (game_checkpoints == 2)
+	$TextureProgress3Part.visible = (game_checkpoints == 3)
+	
 
 func set_progress(value):
 	$TextureProgress.value = value * 1000
 
 func set_game_progressbar(value):
 	# 1, 2, 3, 4
-	if value == 1:
-		game_progressbar_target = 150
-	elif value == 2:
-		game_progressbar_target = 500
-	elif value == 3:
-		game_progressbar_target = 800
-	else:
-		# 1000 is the max but the bar stops before it, possibly due to plerp()
-		game_progressbar_target = 1200
+	
+	if game_checkpoints == 2:
+		if value == 1:
+			game_progressbar_target = 150
+		elif value == 2:
+			game_progressbar_target = 750
+		else:
+			# 1000 is the max but the bar stops before it, possibly due to plerp()
+			game_progressbar_target = 1200
+	elif game_checkpoints == 3:
+		if value == 1:
+			game_progressbar_target = 150
+		elif value == 2:
+			game_progressbar_target = 500
+		elif value == 3:
+			game_progressbar_target = 800
+		else:
+			# 1000 is the max but the bar stops before it, possibly due to plerp()
+			game_progressbar_target = 1200
 
 # TODO: should not update on every frame...
 func update_mouse_cursor(player1_control, player2_control, is_valid):
@@ -74,4 +94,5 @@ func update_mouse_cursor(player1_control, player2_control, is_valid):
 
 func set_elements_visibility(value):
 	$TextureProgress.visible = value
-	$TextureProgress2.visible = value
+	$TextureProgress2Part.visible = value
+	$TextureProgress3Part.visible = value

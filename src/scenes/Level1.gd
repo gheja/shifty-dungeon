@@ -5,12 +5,15 @@ signal navmesh_changed
 onready var navigation = $Navigation
 onready var navmesh_instance = $Navigation/NavigationMeshInstance
 
-var checkpoints = [ Vector3(-5, 0, -5), Vector3(0, 0, -5), Vector3(5, 0, -5) ]
+var checkpoints = [ ]
 var checkpoint_index = -1
 var last_checkpoint_block = null
 var main_game
 
 func _ready():
+	for node in get_tree().get_nodes_in_group("checkpoint_spawn_positions"):
+		checkpoints.append(node.global_transform.origin)
+	
 	checkpoint_reached()
 	bake_navmesh()
 
@@ -21,12 +24,8 @@ func bake_navmesh():
 	# navmesh_instance.navmesh.agent_radius = 0.30
 	navmesh_instance.navmesh.agent_radius = 0.28
 	navmesh_instance.bake_navigation_mesh(false)
-	
+	print("navmesh_changed")
 	emit_signal("navmesh_changed")
-
-func _on_Timer_timeout():
-	$Navigation/NavigationMeshInstance/Blocks/BlockTypeD.rotate_y(PI/2)
-	bake_navmesh()
 
 func checkpoint_reached():
 	checkpoint_index += 1
@@ -69,10 +68,10 @@ func set_main_game(scene):
 
 func register_signal_handlers(obj):
 	obj.connect("mouse_hover", main_game, "on_mouse_hover_over_box", [ obj ])
-	obj.connect("rotation_finished", self, "bake_navmesh")
+	obj.connect("block_changed", self, "bake_navmesh")
 
 func set_signal_handlers():
-	self.connect("navmesh_changed", main_game, "on_level_navmesh_changed")
+	var _tmp = self.connect("navmesh_changed", main_game, "on_level_navmesh_changed")
 	
 	for obj in $Navigation/NavigationMeshInstance/Blocks.get_children():
 		register_signal_handlers(obj)

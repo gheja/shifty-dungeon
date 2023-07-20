@@ -89,7 +89,7 @@ visible = false
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
 light_color = Color( 1, 0.72549, 0, 1 )
 light_energy = 0.5
-light_specular = 4.0
+light_specular = 5.0
 
 [node name="OmniLight2" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7091, 0 )

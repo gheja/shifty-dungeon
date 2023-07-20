@@ -1,7 +1,7 @@
 extends Spatial
 
 signal destroyed
-signal rotation_finished
+signal block_changed
 
 var rotation_degrees_final = 0.0
 var rotation_in_progress = false
@@ -29,7 +29,8 @@ func rotation_snap():
 	self.rotation_degrees.y = rotation_degrees_final
 	rotation_in_progress = false
 	
-	emit_signal("rotation_finished")
+	# print("block_changed")
+	emit_signal("block_changed")
 
 func rotation_finished():
 	if is_destroying:
@@ -49,3 +50,7 @@ func emit_destroyed_signal():
 	# print("destroy 1")
 	emit_signal("destroyed")
 	queue_free()
+
+func create_finished():
+	# print("block_changed")
+	emit_signal("block_changed")

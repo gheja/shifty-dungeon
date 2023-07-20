@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/GameOverlay.gd" type="Script" id=1]
 [ext_resource path="res://data/graphics/squareBlackShadow_v2.png" type="Texture" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://data/graphics/mouse_cursor_menu.png" type="Texture" id=4]
 [ext_resource path="res://data/graphics/progress_gauge_empty.png" type="Texture" id=5]
 [ext_resource path="res://data/graphics/progress_gauge_full.png" type="Texture" id=6]
+[ext_resource path="res://data/graphics/progress_gauge_2part_empty.png" type="Texture" id=7]
+[ext_resource path="res://data/graphics/progress_gauge_2part_full.png" type="Texture" id=8]
 
 [node name="GameOverlay" type="Control"]
 anchor_right = 1.0
@@ -30,7 +32,8 @@ stretch_margin_top = 9
 stretch_margin_right = 9
 stretch_margin_bottom = 9
 
-[node name="TextureProgress2" type="TextureProgress" parent="."]
+[node name="TextureProgress3Part" type="TextureProgress" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -135.0
@@ -41,6 +44,24 @@ mouse_filter = 2
 max_value = 1000.0
 texture_under = ExtResource( 5 )
 texture_progress = ExtResource( 6 )
+nine_patch_stretch = true
+stretch_margin_left = 9
+stretch_margin_top = 9
+stretch_margin_right = 9
+stretch_margin_bottom = 9
+
+[node name="TextureProgress2Part" type="TextureProgress" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -135.0
+margin_top = 39.0
+margin_right = 135.0
+margin_bottom = 66.0
+mouse_filter = 2
+max_value = 1000.0
+value = 700.0
+texture_under = ExtResource( 7 )
+texture_progress = ExtResource( 8 )
 nine_patch_stretch = true
 stretch_margin_left = 9
 stretch_margin_top = 9

@@ -18,6 +18,12 @@ func distXZ(p1, p2):
 func distGtoXZ(p1, p2):
 	return distXZ(p1.global_transform.origin, p2.global_transform.origin)
 
+func lazyEqualXZ(p1, p2):
+	return (distXZ(p1, p2) < 0.01)
+
+func lazyEqual2D(p1, p2):
+	return (dist2D(p1, p2) < 0.01)
+
 func toArray(input):
 	var output = []
 	

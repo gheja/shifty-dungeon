@@ -2,8 +2,11 @@ extends Control
 
 signal start_button_pressed
 
+export(Array, PackedScene) var levels
+
 onready var player1_button: Button = $VBoxContainer/MainMenu/VBoxContainer/Player1Button
 onready var player2_button: Button = $VBoxContainer/MainMenu/VBoxContainer/Player2Button
+onready var level_button: Button = $VBoxContainer/MainMenu/VBoxContainer/LevelButton
 onready var start_button: Button = $VBoxContainer/MainMenu/VBoxContainer/StartButton
 onready var options_button: Button = $VBoxContainer/MainMenu/VBoxContainer/OptionsButton
 onready var how_to_play_button: Button = $VBoxContainer/MainMenu/VBoxContainer/HowToPlayButton
@@ -57,19 +60,49 @@ func get_cpu_player_difficulty(n):
 	
 	print("?!")
 
+func get_level_text(n):
+	var s = str(n + 1)
+	
+	if n > GameState.maxLevelUnlocked:
+		s += " (locked)"
+	
+	return s
+
+func level_finished_dialog(status):
+	$VBoxContainer/LevelComplete/VBoxContainer/FinishedNext.hide()
+	$VBoxContainer/LevelComplete/VBoxContainer/FinishedEnd.hide()
+	$VBoxContainer/LevelComplete/VBoxContainer/FinishedFailed.hide()
+	$VBoxContainer/LevelComplete/VBoxContainer/TryAgainButton.hide()
+	$VBoxContainer/LevelComplete/VBoxContainer/NextLevelButton.hide()
+	
+	if status == 1:
+		$VBoxContainer/LevelComplete/VBoxContainer/FinishedNext.show()
+		$VBoxContainer/LevelComplete/VBoxContainer/TryAgainButton.show()
+		$VBoxContainer/LevelComplete/VBoxContainer/NextLevelButton.show()
+	elif status == 2:
+		$VBoxContainer/LevelComplete/VBoxContainer/FinishedEnd.show()
+		$VBoxContainer/LevelComplete/VBoxContainer/TryAgainButton.show()
+	elif status == 3:
+		$VBoxContainer/LevelComplete/VBoxContainer/FinishedFailed.show()
+		$VBoxContainer/LevelComplete/VBoxContainer/TryAgainButton.show()
+
 func update_buttons():
 	player1_button.text = "Player 1: " + get_text_from_control_number(player1_control)
 	player2_button.text = "Player 2: " + get_text_from_control_number(player2_control)
+	level_button.text = "Level: " + get_level_text(GameState.levelToLoad)
 	
 	options_fullscreen_button.text = "Full screen: " + get_on_off_text(GameState.fullScreenEnabled)
 	options_music_button.text = "Music: " + get_on_off_text(GameState.musicEnabled)
 	options_sounds_button.text = "Sounds: " + get_on_off_text(GameState.soundsEnabled)
 	cpu_player_difficulty_button.text = "CPU player level: " + get_cpu_player_difficulty(GameState.cpu_player_difficulty)
 	
+	start_button.disabled = false
+	
 	if (player1_control == 1 or player1_control == 0) and (player1_control == player2_control):
 		start_button.disabled = true
-	else:
-		start_button.disabled = false
+	
+	if GameState.levelToLoad > GameState.maxLevelUnlocked:
+		start_button.disabled = true
 
 func show_main_menu(button_to_focus: Button):
 	if not button_to_focus:
@@ -123,6 +156,16 @@ func _on_Player2Button_pressed():
 	player2_control = (player2_control + 1) % 3
 	update_buttons()
 
+func _on_LevelButton_pressed():
+	button_pressed()
+	GameState.levelToLoad = (GameState.levelToLoad + 1) % levels.size()
+	update_buttons()
+
+func _on_StartButton_pressed():
+	# button_pressed()
+	AudioManager.play_sound(3)
+	emit_signal("start_button_pressed")
+
 func _on_OptionsButton_pressed():
 	button_pressed()
 	show_options_menu()
@@ -139,10 +182,6 @@ func _on_ExitButton_pressed():
 	button_pressed()
 	get_tree().quit()
 
-func _on_StartButton_pressed():
-	# button_pressed()
-	AudioManager.play_sound(3)
-	emit_signal("start_button_pressed")
 
 
 # --- options menu ---
@@ -190,3 +229,5 @@ func _on_HowToPlayBackButton_pressed():
 func _on_AboutBackButton_pressed():
 	button_pressed()
 	show_main_menu(about_button)
+
+

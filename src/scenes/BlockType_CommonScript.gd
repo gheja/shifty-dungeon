@@ -3,13 +3,13 @@ extends Spatial
 # NOTE: common script!
 
 signal mouse_hover
-signal rotation_finished
+signal block_changed
 
 func _ready():
 	var _tmp
 	_tmp = $BlockBase/FloorBox.connect("input_event", self, "_on_FloorBox_input_event")
 	_tmp = $BlockBase.connect("destroyed", self, "on_BlockBase_destroyed")
-	_tmp = $BlockBase.connect("rotation_finished", self, "on_BlockBase_rotation_finished")
+	_tmp = $BlockBase.connect("block_changed", self, "on_BlockBase_block_changed")
 
 func _on_FloorBox_input_event(_camera, event, position, _normal, _shape_idx):
 	if event is InputEventMouse:
@@ -40,5 +40,5 @@ func on_BlockBase_destroyed():
 	# print("destroy 2")
 	queue_free()
 
-func on_BlockBase_rotation_finished():
-	emit_signal("rotation_finished")
+func on_BlockBase_block_changed():
+	emit_signal("block_changed")

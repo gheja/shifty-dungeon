@@ -164,7 +164,7 @@ visible = false
 [node name="GameOverlay" parent="." instance=ExtResource( 6 )]
 
 [node name="ControlSwapTimer" type="Timer" parent="."]
-wait_time = 15.0
+wait_time = 3.0
 
 [node name="RestartTimer" type="Timer" parent="."]
 wait_time = 3.5
@@ -185,9 +185,12 @@ autostart = true
 wait_time = 0.33
 autostart = true
 
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="timeout" from="ControlSwapTimer" to="." method="_on_ControlSwapTimer_timeout"]
 [connection signal="timeout" from="RestartTimer" to="." method="_on_RestartTimer_timeout"]
-[connection signal="timeout" from="PlayerRegenerateRouteV2Timer" to="." method="_on_PlayerRegenerateRouteV2Timer_timeout"]
 [connection signal="timeout" from="CpuDmStep1Timer" to="." method="_on_CpuDmStep1Timer_timeout"]
 [connection signal="timeout" from="CpuDmStep2Timer" to="." method="_on_CpuDmStep2Timer_timeout"]
 [connection signal="timeout" from="DebugPathSticksTimer" to="." method="_on_DebugPathSticksTimer_timeout"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

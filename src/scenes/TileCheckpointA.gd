@@ -5,3 +5,6 @@ func set_open(_value):
 
 func reached():
 	set_open(true)
+
+func play_sound():
+	AudioManager.play_sound(11)

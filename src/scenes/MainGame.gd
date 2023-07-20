@@ -38,16 +38,19 @@ func clear_level():
 func load_level():
 	clear_level()
 	
-	var level_preload = preload("res://scenes/Level1.tscn")
+	# var level_preload = preload("res://scenes/Level1.tscn")
+	var level_preload = preload("res://scenes/Level2.tscn")
+	var a = level_preload.instance()
+	$LevelContainer.add_child(a)
 	
-	level  = level_preload.instance()
+	level = a.get_level_base()
 	level.set_main_game(self)
 	level.set_signal_handlers()
 	
-	$LevelContainer.add_child(level)
 	$Player.global_transform = Lib.get_first_group_member("player_start_positions").global_transform
 	$Player.show()
 	$ControlSwapTimer.start()
+	$GameOverlay.set_game_checkpoints(get_tree().get_nodes_in_group("checkpoint_spawn_positions").size())
 	$GameOverlay.reset()
 	$GameOverlay.set_elements_visibility(true)
 	
@@ -60,12 +63,12 @@ func load_level():
 	update_game_progressbar()
 	
 	if GameState.cpu_player_difficulty == 1:
-		$CpuDmStep1Timer.wait_time = 2.5
-		$CpuDmStep2Timer.wait_time = 0.5
+		$CpuDmStep1Timer.wait_time = 3.5
+		$CpuDmStep2Timer.wait_time = 0.75
 		cpu_dm_extra_blocks = 3
 	elif GameState.cpu_player_difficulty == 2:
-		$CpuDmStep1Timer.wait_time = 1.2
-		$CpuDmStep2Timer.wait_time = 0.33
+		$CpuDmStep1Timer.wait_time = 2.0
+		$CpuDmStep2Timer.wait_time = 0.4
 		cpu_dm_extra_blocks = 2
 	else:
 		$CpuDmStep1Timer.wait_time = 0.9
@@ -141,12 +144,12 @@ func _process(delta):
 			$Player.set_input_target_position($Player.global_translation)
 	
 	if dm_control == GameState.CONTROL_KEYBOARD:
-		if Lib.dist2D(keyboard_just_vector, Vector2.ZERO) > 0.1:
-			dm_update_cursor()
+		if not Lib.lazyEqual2D(keyboard_just_vector, Vector2.ZERO):
+			dm_update_cursor(true)
 			update_block_selection()
 		
 		if keyboard_just_action:
-			dm_click()
+			dm_click(true)
 	
 	# TODO: fix the positions
 	var pos_orc = $Player.global_translation + Vector3(0.0, 0.0, -0.5)
@@ -175,6 +178,11 @@ func _process(delta):
 func swap_controls():
 	GameState.is_swapped = not GameState.is_swapped
 	
+	if GameState.is_swapped:
+		AudioManager.play_sound(9)
+	else:
+		AudioManager.play_sound(10)
+	
 	apply_new_controls()
 
 func apply_new_controls():
@@ -194,7 +202,7 @@ func apply_new_controls():
 	level.bake_navmesh()
 
 func on_level_navmesh_changed():
-	$Player.regenerate_route_schedule()
+	$Player.navmesh_changed()
 
 func block_selection_is_valid():
 	if not current_block or not is_instance_valid(current_block):
@@ -236,7 +244,13 @@ func update_block_highlight_color(valid):
 		else:
 			$SelectionHighlight/Player1Highlight.show()
 
-func set_block_selection(block):
+func set_block_selection(block, is_player_action):
+	if  current_block == block:
+		return
+	
+	# if is_player_action:
+	# 	AudioManager.play_sound(6)
+	
 	current_block = block
 	
 	# make sure the dm_cursor is on the correct position
@@ -249,7 +263,7 @@ func get_block_on_position(pos):
 		if not is_instance_valid(block):
 			continue
 		
-		if Lib.distXZ(block.global_transform.origin, pos) < 0.1:
+		if Lib.lazyEqualXZ(block.global_transform.origin, pos):
 			return block
 	
 	return null
@@ -260,23 +274,27 @@ func update_block_selection():
 	if not block:
 		return
 	
-	set_block_selection(block)
+	set_block_selection(block, false)
 
 func block_rotate():
 	if not block_selection_is_valid():
 		return
+	
+	# will be played for player and cpu action
+	# AudioManager.play_sound(Lib.arrayPick([ 8, 9, 10 ]))
+	AudioManager.play_sound(8, 0.5, 3.0)
 	
 	# current_block.rotate_y(PI/2)
 	current_block.rotate_to()
 
 func on_mouse_hover_over_box(position: Vector3, block: Spatial):
 	if dm_control == GameState.CONTROL_MOUSE:
-		set_block_selection(block)
+		set_block_selection(block, true)
 	
 	if orc_control == GameState.CONTROL_MOUSE:
 		$Player.set_input_target_position(position)
 
-func dm_update_cursor():
+func dm_update_cursor(is_player_action):
 	var block
 	var pos = dm_cursor + Vector3(keyboard_just_vector.x * 5, 0, keyboard_just_vector.y * 5)
 	
@@ -288,11 +306,17 @@ func dm_update_cursor():
 	if block.is_in_group("edge_blocks"):
 		return
 	
+	# if is_player_action:
+	# 	AudioManager.play_sound(6)
+	
 	dm_cursor = pos
 
-func dm_click():
+func dm_click(is_player_action: bool):
+	# if is_player_action:
+	# 	AudioManager.play_sound(7)
+	
 	block_rotate()
-	level.bake_navmesh()
+	# level.bake_navmesh()
 
 func cpu_dm_step():
 	var path = $Player.get_path()
@@ -319,7 +343,7 @@ func cpu_dm_step():
 				blocks_considered.append(block)
 				break
 	
-	for i in range(0, cpu_dm_extra_blocks):
+	for _i in range(0, cpu_dm_extra_blocks):
 		# NOTE: might pick one already in the array
 		blocks_considered.append(Lib.arrayPick(blocks_valid))
 	
@@ -330,7 +354,7 @@ func cpu_dm_step():
 	if blocks_considered.size() == 0:
 		return
 	
-	set_block_selection(Lib.arrayPick(blocks_considered))
+	set_block_selection(Lib.arrayPick(blocks_considered), false)
 	
 	cpu_dm_clicks_left = round(rand_range(1, 3))
 
@@ -358,7 +382,7 @@ func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.pressed:
 			if dm_control == GameState.CONTROL_MOUSE:
-				dm_click()
+				dm_click(true)
 
 func stop_game():
 	GameState.state = GameState.STATE_FINISHED
@@ -383,13 +407,6 @@ func game_finished():
 func _on_RestartTimer_timeout():
 	show_menu()
 
-func _on_PlayerRegenerateRouteV2Timer_timeout():
-	if GameState.state != GameState.STATE_RUNNING:
-		return
-	
-	# doing a pathing so the other player can calculate affected blocks
-	$Player.regenerate_route_schedule()
-
 func _on_CpuDmStep1Timer_timeout():
 	if GameState.state != GameState.STATE_RUNNING:
 		return
@@ -411,7 +428,7 @@ func _on_CpuDmStep2Timer_timeout():
 		return
 	
 	# print("cpu dm click")
-	dm_click()
+	dm_click(false)
 	
 	cpu_dm_clicks_left -= 1
 
@@ -429,3 +446,5 @@ func _on_DebugPathSticksTimer_timeout():
 		stick.translation = step
 		root.add_child(stick)
 
+func _on_Timer_timeout():
+	print("---")

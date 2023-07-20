@@ -7,7 +7,7 @@
 [ext_resource path="res://scenes/BlockType_CommonScript.gd" type="Script" id=5]
 [ext_resource path="res://scenes/BlockBase.tscn" type="PackedScene" id=6]
 
-[node name="BlockTypeH" type="Spatial" groups=["blocks"]]
+[node name="BlockTypeEmpty5" type="Spatial" groups=["blocks"]]
 script = ExtResource( 5 )
 
 [node name="BlockBase" parent="." instance=ExtResource( 6 )]

@@ -103,10 +103,6 @@ scale_amount_curve = SubResource( 14 )
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.5, 0 )
 shape = SubResource( 1 )
 
-[node name="RegenerateRouteTimer" type="Timer" parent="."]
-wait_time = 0.2
-one_shot = true
-
 [node name="PlayerHighlight" type="CSGMesh" parent="."]
 mesh = SubResource( 2 )
 material = SubResource( 4 )
@@ -116,4 +112,13 @@ autoplay = "default"
 anims/default = SubResource( 10 )
 anims/player_swap_transition = SubResource( 11 )
 
+[node name="RegenerateRouteInterval" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="RegenerateRouteTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="timeout" from="RegenerateRouteInterval" to="." method="_on_RegenerateRouteInterval_timeout"]
 [connection signal="timeout" from="RegenerateRouteTimer" to="." method="_on_RegenerateRouteTimer_timeout"]

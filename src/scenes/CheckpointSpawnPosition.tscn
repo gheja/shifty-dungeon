@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/CheckpointSpawnPosition.gd" type="Script" id=1]
+
+[sub_resource type="CubeMesh" id=3]
+size = Vector3( 5, 0.5, 5 )
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 1, 0, 0.878431, 1 )
+
+[node name="CheckpointSpawnPosition" type="Position3D" groups=["checkpoint_spawn_positions"]]
+script = ExtResource( 1 )
+
+[node name="Visuals" type="Spatial" parent="."]
+
+[node name="CSGMesh" type="CSGMesh" parent="Visuals"]
+mesh = SubResource( 3 )
+material = SubResource( 2 )
