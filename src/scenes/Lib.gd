@@ -43,3 +43,21 @@ func plerp2D(a, b, p, delta):
 
 func plerp3D(a, b, p, delta):
 	return Vector3(plerp(a.x, b.x, p, delta), plerp(a.y, b.y, p, delta), plerp(a.z, b.z, p, delta))
+
+
+# a dictionary to store key-value pairs and isBag() returns true if the key is
+# already set to the supplied value. can be used to check if something needs
+# updating.
+
+var _bag = { }
+
+func clearBag():
+	_bag.clear()
+
+func isBag(key, value):
+	if _bag.has(key) and _bag.get(key) == value:
+		return true
+	
+	_bag[key] = value
+	
+	return false

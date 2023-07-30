@@ -44,6 +44,8 @@ func load_level():
 	var a = level_preload.instance()
 	$LevelContainer.add_child(a)
 	
+	Lib.clearBag()
+	
 	level = a.get_level_base()
 	level.set_main_game(self)
 	level.set_signal_handlers()
@@ -237,6 +239,9 @@ func block_selection_is_valid():
 	return true
 
 func update_block_highlight_color(valid):
+	if Lib.isBag("block_valid", valid) and Lib.isBag("block_swapped", GameState.is_swapped):
+		return
+	
 	$SelectionHighlight/Player1Highlight.hide()
 	$SelectionHighlight/Player2Highlight.hide()
 	$SelectionHighlight/Player1Invalid.hide()

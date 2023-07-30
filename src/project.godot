@@ -14,6 +14,10 @@ config/name="Shifty Dungeon"
 run/main_scene="res://scenes/MainGame.tscn"
 config/icon="res://icon.png"
 
+[audio]
+
+output_latency.web=80
+
 [autoload]
 
 Lib="*res://scenes/Lib.gd"
