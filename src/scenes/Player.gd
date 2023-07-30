@@ -120,6 +120,9 @@ func navmesh_changed():
 	# restart the interval timer
 	$RegenerateRouteInterval.start()
 
+func start_camera_rotation():
+	$CameraContainerAnimationPlayer.play("rotate")
+
 func _on_RegenerateRouteTimer_timeout():
 	regenerate_route()
 

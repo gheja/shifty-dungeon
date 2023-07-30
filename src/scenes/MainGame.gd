@@ -20,6 +20,13 @@ var dm_cursor = Vector3.ZERO
 
 var game_progressbar_position = 0
 
+var camera_position_blend = 0
+var camera_position_blend_target = 0
+onready var camera_position_0 = $Player/CameraContainer/CameraPositionPlayer
+onready var camera_position_1 = $CameraPositionDefault
+
+var start_countdown_left = 3
+
 func show_menu():
 	# clear_level()
 	$MenuOverlay.show()
@@ -52,14 +59,12 @@ func load_level():
 	
 	$Player.global_transform = Lib.get_first_group_member("player_start_positions").global_transform
 	$Player.show()
-	$ControlSwapTimer.set_wait_time(level.control_swap_interval)
-	$ControlSwapTimer.start()
 	$GameOverlay.set_game_checkpoints(get_tree().get_nodes_in_group("checkpoint_spawn_positions").size())
 	$GameOverlay.reset()
 	$GameOverlay.set_elements_visibility(true)
 	
 	GameState.is_swapped = false
-	GameState.state = GameState.STATE_RUNNING
+	GameState.state = GameState.STATE_STARTING
 	dm_cursor = Vector3.ZERO
 	update_block_selection()
 	
@@ -78,6 +83,17 @@ func load_level():
 		$CpuDmStep1Timer.wait_time = 0.9
 		$CpuDmStep2Timer.wait_time = 0.25
 		cpu_dm_extra_blocks = 0
+	
+	camera_position_blend = 0
+	camera_position_blend_target = 0
+	
+	start_countdown_left = 3
+	$StartCountdownTimer.start()
+
+func start_level():
+	$ControlSwapTimer.set_wait_time(level.control_swap_interval)
+	$ControlSwapTimer.start()
+	GameState.state = GameState.STATE_RUNNING
 
 func _ready():
 	# Engine.target_fps = 15
@@ -138,8 +154,14 @@ func handle_keyboard_input():
 	if Input.is_action_just_pressed("ui_accept"):
 		keyboard_just_action = true
 	
+	if Input.is_action_just_pressed("ui_cancel"):
+		stop_game()
+		show_menu()
+	
 
 func _process(delta):
+	move_camera(delta)
+	
 	if GameState.state == GameState.STATE_RUNNING:
 		check_goal()
 	
@@ -185,6 +207,16 @@ func _process(delta):
 		$GameOverlay.set_progress(1 - ($ControlSwapTimer.time_left / $ControlSwapTimer.wait_time))
 	
 	update_mouse_cursor()
+
+func move_camera(delta):
+	camera_position_blend = Lib.plerp(camera_position_blend, camera_position_blend_target, 0.15, delta)
+	
+	$Camera.global_transform.origin.x = lerp(camera_position_0.global_transform.origin.x, camera_position_1.global_transform.origin.x, camera_position_blend)
+	$Camera.global_transform.origin.y = lerp(camera_position_0.global_transform.origin.y, camera_position_1.global_transform.origin.y, camera_position_blend)
+	$Camera.global_transform.origin.z = lerp(camera_position_0.global_transform.origin.z, camera_position_1.global_transform.origin.z, camera_position_blend)
+	$Camera.global_rotation.x         = lerp(camera_position_0.global_rotation.x,         camera_position_1.global_rotation.x, camera_position_blend)
+	$Camera.global_rotation.y         = lerp(camera_position_0.global_rotation.y,         camera_position_1.global_rotation.y, camera_position_blend)
+	$Camera.global_rotation.z         = lerp(camera_position_0.global_rotation.z,         camera_position_1.global_rotation.z, camera_position_blend)
 
 func swap_controls():
 	GameState.is_swapped = not GameState.is_swapped
@@ -382,6 +414,8 @@ func on_start_button_pressed():
 	
 	load_level()
 	apply_new_controls()
+	
+	camera_position_blend_target = 1
 
 func _on_ControlSwapTimer_timeout():
 	swap_controls()
@@ -403,10 +437,14 @@ func stop_game():
 	
 	$ControlSwapTimer.stop()
 	$Player.stop_game()
+	$StartCountdownTimer.stop()
 
 func game_finished():
 	if GameState.state == GameState.STATE_FINISHED:
 		return
+	
+	$Player.start_camera_rotation()
+	camera_position_blend_target = 0
 	
 	var tmp = preload("res://scenes/CongratulationsOverlay.tscn").instance()
 	tmp.update_text()
@@ -484,3 +522,18 @@ func _on_DebugPathSticksTimer_timeout():
 func _on_Timer_timeout():
 	# print("---")
 	pass
+
+func _on_StartCountdownTimer_timeout():
+	var tmp_scene = preload("res://scenes/StartCountdownOverlay.tscn")
+	var tmp = tmp_scene.instance()
+	self.add_child(tmp)
+	
+	if start_countdown_left > 0:
+		tmp.setText(str(start_countdown_left))
+	else:
+		tmp.setText("GO!")
+		$StartCountdownTimer.stop()
+		start_level()
+		return
+	
+	start_countdown_left -= 1
