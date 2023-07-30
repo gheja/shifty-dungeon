@@ -2,6 +2,8 @@ extends Spatial
 
 signal navmesh_changed
 
+export var control_swap_interval: float = 15.0
+
 onready var navigation = $Navigation
 onready var navmesh_instance = $Navigation/NavigationMeshInstance
 

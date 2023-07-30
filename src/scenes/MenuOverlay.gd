@@ -34,6 +34,19 @@ func _ready():
 	
 	player1_button.grab_focus()
 
+func is_last_level_selected():
+	if GameState.levelToLoad == levels.size() - 1:
+		return true
+	
+	return false
+
+func get_selected_level_scene():
+	return levels[GameState.levelToLoad]
+
+func reset_selected_level_index():
+	GameState.levelToLoad = GameState.maxLevelUnlocked
+	update_buttons()
+
 func get_text_from_control_number(n):
 	if n == 0:
 		return "Keyboard"
@@ -69,22 +82,27 @@ func get_level_text(n):
 	return s
 
 func level_finished_dialog(status):
-	$VBoxContainer/LevelComplete/VBoxContainer/FinishedNext.hide()
-	$VBoxContainer/LevelComplete/VBoxContainer/FinishedEnd.hide()
-	$VBoxContainer/LevelComplete/VBoxContainer/FinishedFailed.hide()
+	show_level_complete_menu()
+	
+	$VBoxContainer/LevelComplete/VBoxContainer/TextNext.hide()
+	$VBoxContainer/LevelComplete/VBoxContainer/TextGameComplete.hide()
+	$VBoxContainer/LevelComplete/VBoxContainer/TextFailed.hide()
 	$VBoxContainer/LevelComplete/VBoxContainer/TryAgainButton.hide()
 	$VBoxContainer/LevelComplete/VBoxContainer/NextLevelButton.hide()
 	
 	if status == 1:
-		$VBoxContainer/LevelComplete/VBoxContainer/FinishedNext.show()
+		$VBoxContainer/LevelComplete/VBoxContainer/TextNext.show()
 		$VBoxContainer/LevelComplete/VBoxContainer/TryAgainButton.show()
 		$VBoxContainer/LevelComplete/VBoxContainer/NextLevelButton.show()
+		$VBoxContainer/LevelComplete/VBoxContainer/NextLevelButton.grab_focus()
 	elif status == 2:
-		$VBoxContainer/LevelComplete/VBoxContainer/FinishedEnd.show()
+		$VBoxContainer/LevelComplete/VBoxContainer/TextGameComplete.show()
 		$VBoxContainer/LevelComplete/VBoxContainer/TryAgainButton.show()
+		$VBoxContainer/LevelComplete/VBoxContainer/TryAgainButton.grab_focus()
 	elif status == 3:
-		$VBoxContainer/LevelComplete/VBoxContainer/FinishedFailed.show()
+		$VBoxContainer/LevelComplete/VBoxContainer/TextFailed.show()
 		$VBoxContainer/LevelComplete/VBoxContainer/TryAgainButton.show()
+		$VBoxContainer/LevelComplete/VBoxContainer/TryAgainButton.grab_focus()
 
 func update_buttons():
 	player1_button.text = "Player 1: " + get_text_from_control_number(player1_control)
@@ -112,6 +130,7 @@ func show_main_menu(button_to_focus: Button):
 	$VBoxContainer/Options.hide()
 	$VBoxContainer/HowToPlay.hide()
 	$VBoxContainer/About.hide()
+	$VBoxContainer/LevelComplete.hide()
 	button_to_focus.grab_focus()
 
 func show_about_menu():
@@ -119,6 +138,7 @@ func show_about_menu():
 	$VBoxContainer/Options.hide()
 	$VBoxContainer/HowToPlay.hide()
 	$VBoxContainer/About.show()
+	$VBoxContainer/LevelComplete.hide()
 	about_back_button.grab_focus()
 
 func show_options_menu():
@@ -126,6 +146,7 @@ func show_options_menu():
 	$VBoxContainer/Options.show()
 	$VBoxContainer/HowToPlay.hide()
 	$VBoxContainer/About.hide()
+	$VBoxContainer/LevelComplete.hide()
 	options_back_button.grab_focus()
 
 func show_how_to_play_menu():
@@ -133,7 +154,15 @@ func show_how_to_play_menu():
 	$VBoxContainer/Options.hide()
 	$VBoxContainer/HowToPlay.show()
 	$VBoxContainer/About.hide()
+	$VBoxContainer/LevelComplete.hide()
 	how_to_play_back_button.grab_focus()
+
+func show_level_complete_menu():
+	$VBoxContainer/MainMenu.hide()
+	$VBoxContainer/Options.hide()
+	$VBoxContainer/HowToPlay.hide()
+	$VBoxContainer/About.hide()
+	$VBoxContainer/LevelComplete.show()
 
 func button_pressed():
 	AudioManager.play_sound(1)
@@ -231,3 +260,13 @@ func _on_AboutBackButton_pressed():
 	show_main_menu(about_button)
 
 
+# --- level complete screen ---
+func _on_LevelCompleteBackButton_pressed():
+	show_main_menu(start_button)
+
+func _on_TryAgainButton_pressed():
+	_on_StartButton_pressed()
+
+func _on_NextLevelButton_pressed():
+	_on_LevelButton_pressed()
+	_on_StartButton_pressed()

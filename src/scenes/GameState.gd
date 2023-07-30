@@ -22,3 +22,30 @@ func applyOptions():
 	AudioServer.set_bus_mute(AudioServer.get_bus_index("Music Master"), not musicEnabled)
 	AudioServer.set_bus_mute(AudioServer.get_bus_index("Sounds Master"), not soundsEnabled)
 	OS.set_window_fullscreen(fullScreenEnabled)
+
+func saveConfig():
+	var config = ConfigFile.new()
+	
+	config.set_value("game", "max_level_unlocked", maxLevelUnlocked)
+	
+	config.save("user://config.cfg")
+
+func loadConfig():
+	var config = ConfigFile.new()
+	var err = config.load("user://config.cfg")
+	
+	if err != OK:
+		return
+	
+	maxLevelUnlocked = config.get_value("game", "max_level_unlocked", 0)
+
+func prepareConfig():
+	var config = ConfigFile.new()
+	var err = config.load("user://config.cfg")
+	
+	if err != OK:
+		saveConfig()
+		return
+
+func setMaxLevelUnlocked(value):
+	maxLevelUnlocked = value

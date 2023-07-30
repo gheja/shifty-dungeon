@@ -21,6 +21,7 @@
 script = ExtResource( 14 )
 
 [node name="LevelBase" parent="." instance=ExtResource( 2 )]
+control_swap_interval = 10.0
 
 [node name="BlockTypeK2" parent="LevelBase/Navigation/NavigationMeshInstance/Blocks" index="0" instance=ExtResource( 12 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -10, 0, 5 )
@@ -83,10 +84,10 @@ transform = Transform( -1, 0, -8.74226e-08, 0, 1, 0, 8.74226e-08, 0, -1, -10, 0,
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5 )
 
 [node name="BlockTypeEmpty3" parent="LevelBase/Navigation/NavigationMeshInstance/Blocks" index="20" instance=ExtResource( 11 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 0, 0 )
 
 [node name="BlockTypeEmpty4" parent="LevelBase/Navigation/NavigationMeshInstance/Blocks" index="21" instance=ExtResource( 10 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 0, 0 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
 
 [node name="BlockTypeL3" parent="LevelBase/Navigation/NavigationMeshInstance/Blocks" index="22" instance=ExtResource( 7 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -10, 0, 0 )

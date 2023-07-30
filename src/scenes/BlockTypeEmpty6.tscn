@@ -73,11 +73,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
 [node name="TileWallA5" parent="BlockBase/Contents/Tiles" index="20" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1 )
 
-[node name="TileWallA6" parent="BlockBase/Contents/Tiles" index="21" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1 )
-
-[node name="TileFloorB" parent="BlockBase/Contents/Tiles" index="22" instance=ExtResource( 2 )]
+[node name="TileFloorB" parent="BlockBase/Contents/Tiles" index="21" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1 )
+
+[node name="TileFloorB4" parent="BlockBase/Contents/Tiles" index="22" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1 )
 
 [node name="TileFloorB2" parent="BlockBase/Contents/Tiles" index="23" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2 )

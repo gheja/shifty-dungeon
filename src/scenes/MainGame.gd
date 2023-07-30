@@ -39,7 +39,8 @@ func load_level():
 	clear_level()
 	
 	# var level_preload = preload("res://scenes/Level1.tscn")
-	var level_preload = preload("res://scenes/Level2.tscn")
+	# var level_preload = preload("res://scenes/Level2.tscn")
+	var level_preload = $MenuOverlay.get_selected_level_scene()
 	var a = level_preload.instance()
 	$LevelContainer.add_child(a)
 	
@@ -49,6 +50,7 @@ func load_level():
 	
 	$Player.global_transform = Lib.get_first_group_member("player_start_positions").global_transform
 	$Player.show()
+	$ControlSwapTimer.set_wait_time(level.control_swap_interval)
 	$ControlSwapTimer.start()
 	$GameOverlay.set_game_checkpoints(get_tree().get_nodes_in_group("checkpoint_spawn_positions").size())
 	$GameOverlay.reset()
@@ -77,6 +79,10 @@ func load_level():
 
 func _ready():
 	var _tmp = $MenuOverlay.connect("start_button_pressed", self, "on_start_button_pressed")
+	GameState.prepareConfig()
+	GameState.loadConfig()
+	$MenuOverlay.reset_selected_level_index()
+	
 	load_level()
 	stop_game()
 	show_menu()
@@ -404,8 +410,27 @@ func game_finished():
 	
 	$RestartTimer.start()
 
-func _on_RestartTimer_timeout():
+func show_level_finished_dialog():
+	var a_palyer_won = false
+	
+	if orc_control == GameState.CONTROL_KEYBOARD or orc_control == GameState.CONTROL_MOUSE:
+		a_palyer_won = true
+	
 	show_menu()
+	
+	if a_palyer_won:
+		if not $MenuOverlay.is_last_level_selected():
+			GameState.setMaxLevelUnlocked(GameState.maxLevelUnlocked + 1)
+			GameState.saveConfig()
+			
+			$MenuOverlay.level_finished_dialog(1)
+		else:
+			$MenuOverlay.level_finished_dialog(2)
+	else:
+		$MenuOverlay.level_finished_dialog(3)
+
+func _on_RestartTimer_timeout():
+	show_level_finished_dialog()
 
 func _on_CpuDmStep1Timer_timeout():
 	if GameState.state != GameState.STATE_RUNNING:
