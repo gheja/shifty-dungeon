@@ -217,18 +217,21 @@ func _on_ExitButton_pressed():
 func _on_FullScreenButton_pressed():
 	button_pressed()
 	GameState.fullScreenEnabled = !GameState.fullScreenEnabled
+	GameState.saveConfig()
 	GameState.applyOptions()
 	update_buttons()
 
 func _on_MusicButton_pressed():
 	button_pressed()
 	GameState.musicEnabled = !GameState.musicEnabled
+	GameState.saveConfig()
 	GameState.applyOptions()
 	update_buttons()
 
 func _on_SoundsButton_pressed():
 	button_pressed()
 	GameState.soundsEnabled = !GameState.soundsEnabled
+	GameState.saveConfig()
 	GameState.applyOptions()
 	update_buttons()
 
@@ -240,6 +243,7 @@ func _on_CpuPlayerDifficultyButton_pressed():
 	if GameState.cpu_player_difficulty > 3:
 		GameState.cpu_player_difficulty = 1
 		
+	GameState.saveConfig()
 	GameState.applyOptions()
 	update_buttons()
 

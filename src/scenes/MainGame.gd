@@ -81,6 +81,7 @@ func _ready():
 	var _tmp = $MenuOverlay.connect("start_button_pressed", self, "on_start_button_pressed")
 	GameState.prepareConfig()
 	GameState.loadConfig()
+	GameState.applyOptions()
 	$MenuOverlay.reset_selected_level_index()
 	
 	load_level()
@@ -472,4 +473,5 @@ func _on_DebugPathSticksTimer_timeout():
 		root.add_child(stick)
 
 func _on_Timer_timeout():
-	print("---")
+	# print("---")
+	pass

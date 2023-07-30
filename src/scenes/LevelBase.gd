@@ -33,7 +33,7 @@ func bake_navmesh():
 	navmesh_instance.navmesh.cell_height = navigation.cell_height
 	navmesh_instance.navmesh.agent_radius = 0.28
 	navmesh_instance.bake_navigation_mesh(false)
-	print("navmesh_changed")
+	# print("navmesh_changed")
 	emit_signal("navmesh_changed")
 
 func checkpoint_reached():

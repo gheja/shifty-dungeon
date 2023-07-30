@@ -85,7 +85,7 @@ func stop_game():
 	$RegenerateRouteTimer.stop()
 
 func regenerate_route():
-	print("regenerate_route")
+	# print("regenerate_route")
 	
 	var nav: Navigation = Lib.get_first_group_member("navigations")
 	var goal: Spatial = Lib.get_first_group_member("goals")
@@ -108,7 +108,7 @@ func get_path():
 	return path
 
 func regenerate_route_schedule():
-	print("regenerate_route_schedule")
+	# print("regenerate_route_schedule")
 	
 	# cannot generate route right after navmesh baking, use a little delay here
 	$RegenerateRouteTimer.start()
