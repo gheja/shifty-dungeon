@@ -186,7 +186,6 @@ margin_bottom = 166.0
 text = "Back"
 
 [node name="HowToPlay" type="VBoxContainer" parent="VBoxContainer"]
-visible = false
 margin_top = 192.0
 margin_right = 1066.0
 margin_bottom = 542.0
@@ -225,6 +224,7 @@ margin_bottom = 350.0
 text = "Back"
 
 [node name="LevelComplete" type="VBoxContainer" parent="VBoxContainer"]
+visible = false
 margin_top = 192.0
 margin_right = 1066.0
 margin_bottom = 525.0

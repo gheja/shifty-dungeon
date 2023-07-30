@@ -1,15 +1,18 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/LevelBase.gd" type="Script" id=1]
+
+[sub_resource type="NavigationMesh" id=1]
 
 [node name="LevelBase" type="Spatial"]
 script = ExtResource( 1 )
 
 [node name="Navigation" type="Navigation" parent="." groups=["navigations"]]
-cell_size = 0.1
-cell_height = 0.1
+cell_size = 0.22
+cell_height = 0.5
 
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Navigation"]
+navmesh = SubResource( 1 )
 
 [node name="Blocks" type="Spatial" parent="Navigation/NavigationMeshInstance"]
 

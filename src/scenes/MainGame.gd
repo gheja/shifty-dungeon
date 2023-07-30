@@ -78,6 +78,8 @@ func load_level():
 		cpu_dm_extra_blocks = 0
 
 func _ready():
+	# Engine.target_fps = 15
+	
 	var _tmp = $MenuOverlay.connect("start_button_pressed", self, "on_start_button_pressed")
 	GameState.prepareConfig()
 	GameState.loadConfig()
@@ -421,8 +423,10 @@ func show_level_finished_dialog():
 	
 	if a_palyer_won:
 		if not $MenuOverlay.is_last_level_selected():
-			GameState.setMaxLevelUnlocked(GameState.maxLevelUnlocked + 1)
-			GameState.saveConfig()
+			# unlock the next level only if we played the last level
+			if GameState.maxLevelUnlocked == GameState.levelToLoad:
+				GameState.setMaxLevelUnlocked(GameState.maxLevelUnlocked + 1)
+				GameState.saveConfig()
 			
 			$MenuOverlay.level_finished_dialog(1)
 		else:

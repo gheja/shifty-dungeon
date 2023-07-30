@@ -5,7 +5,7 @@ signal navmesh_changed
 export var control_swap_interval: float = 15.0
 
 onready var navigation = $Navigation
-onready var navmesh_instance = $Navigation/NavigationMeshInstance
+onready var navmesh_instance: NavigationMeshInstance = $Navigation/NavigationMeshInstance
 
 var checkpoints = [ ]
 var checkpoint_index = -1
@@ -18,6 +18,7 @@ func _ready():
 	
 	checkpoint_reached()
 	make_locked_blocks_static()
+	init_navmesh()
 	bake_navmesh()
 
 func make_locked_blocks_static():
@@ -25,15 +26,20 @@ func make_locked_blocks_static():
 		for lock in get_tree().get_nodes_in_group("locked_block_modifiers"):
 			if Lib.lazyEqualXZ(block.global_transform.origin, lock.global_transform.origin):
 				block.add_to_group("static_blocks")
-			
 
-func bake_navmesh():
+func init_navmesh():
 	navmesh_instance.navmesh = NavigationMesh.new()
 	navmesh_instance.navmesh.cell_size = navigation.cell_size
 	navmesh_instance.navmesh.cell_height = navigation.cell_height
-	navmesh_instance.navmesh.agent_radius = 0.28
+	navmesh_instance.navmesh.agent_radius = 0.15
+	navmesh_instance.navmesh.geometry_parsed_geometry_type = NavigationMesh.PARSED_GEOMETRY_STATIC_COLLIDERS
+	# navmesh_instance.navmesh.polygon_verts_per_poly = 20
+	# navmesh_instance.navmesh.detail_sample_distance = 20
+	navmesh_instance.navmesh.sample_partition_type = NavigationMesh.SAMPLE_PARTITION_MONOTONE
+	# navmesh_instance.navmesh.sample_partition_type = NavigationMesh.SAMPLE_PARTITION_MAX
+
+func bake_navmesh():
 	navmesh_instance.bake_navigation_mesh(false)
-	# print("navmesh_changed")
 	emit_signal("navmesh_changed")
 
 func checkpoint_reached():
