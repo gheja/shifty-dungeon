@@ -32,6 +32,18 @@ implementing my ideas, etc.
 
 Checkout the latest version: https://gheja.itch.io/shifty-dungeon-latest
 
+Gameplay: https://www.youtube.com/watch?v=4Tzgzvp-GzA
+
+Screenshots:
+
+![Shifty Dungeon screenshot](screenshot1_600.jpg)
+
+![Shifty Dungeon screenshot](screenshot2_600.jpg)
+
+![Shifty Dungeon screenshot](screenshot3_600.jpg)
+
+![Shifty Dungeon screenshot](screenshot4_600.jpg)
+
 
 ## Credits
 
