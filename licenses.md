@@ -125,9 +125,27 @@ Files:
 
 Author: Eeve Somepx
 
-License: "You can use and/or modify these assets for your own personal or
-commercial projects. You can't distribute or resell these assets by
-themselves. Attribution is not required, but would be appreciated."
+License:
+```
+Common Sense License (CSL)
+
+You CAN use these assets in your own free or paid projects.
+
+You CAN modify these assets for use in your own projects.
+
+You CANNOT distribute or resell these assets by themselves.
+
+You CANNOT sell a modified version of these assets by themselves.
+
+Attribution is not required, but would be appreciated.
+
+Eeve Somepx
+@somepx
+
+info@somepx.com
+```
+
+License link: http://www.palmentieri.it/somepx/license.txt
 
 Links:
   - https://somepx.itch.io/
