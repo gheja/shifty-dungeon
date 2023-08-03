@@ -123,7 +123,7 @@ to the License.
 Files:
   - data/fonts/MatchupPro.ttf
 
-Author: Eeeve Somepx
+Author: Eeve Somepx
 
 License: "You can use and/or modify these assets for your own personal or
 commercial projects. You can't distribute or resell these assets by
