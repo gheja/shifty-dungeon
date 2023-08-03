@@ -53,6 +53,8 @@ you have the legal right to use."
 
 I decided to go with only publicly available royalty free assets.
 
+For a detailed list of files and the licenses see: [licenses.md](licenses.md)
+
 Code, additional graphics: Gabor Heja
 
 Graphics: Kenney (kenney.nl)
